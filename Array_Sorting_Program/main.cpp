@@ -1,153 +1,160 @@
-/* Ramzi Yakan
-   Array Sorting Program
-   Sorts an array by using either the bubble sort, insertion sort, or selection sort method.
-   Feb 2 2018
-   */
+// ConsoleApplication1.cpp : Defines the entry point for the console application.
+//
 
+#include "stdafx.h"
 #include <cstdlib>
 #include <iostream>
+#include <vector>
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
 
-void createArray(int bubbleSortArray [10]);
+void createArray(std::vector<int>& bubbleSortArray);
 int chooseSortingMethod();
-void bubbleSort(int listArray[]);
-void insertionSort(int listArray[]);
-void selectionSort(int listArray[]);
-bool checkIfSorted (int listArray[]);
-void displayArray (int listArray[]);
+void bubbleSort(std::vector<int>& listArray);
+void insertionSort(std::vector<int>& listArray);
+void selectionSort(std::vector<int>& listArray);
+bool checkIfSorted(const std::vector<int>& listArray);
+void displayArray(std::vector<int>& listArray);
 
 int main(int argc, char *argv[])
 {
-    int Array [10];
-    int option=1;
-    createArray(Array);
-    cout<<endl;
-    option = chooseSortingMethod();
-    while (checkIfSorted(Array)==0)
-    {
-        switch(option)
-        {
-            case 1:
-            {
-                bubbleSort(Array);
-            }
-            case 2:
-            {
-                insertionSort(Array);
-            }
-            case 3:
-            {
-                selectionSort(Array);
-            }
-        }
-    }
-    displayArray(Array);
+	// Holds the list of numbers that the user wants to sort
+	auto numberList = std::vector<int>();
+	createArray(numberList);
+
+	cout << endl;
+	while (checkIfSorted(numberList) ==0)
+	{
+		switch (chooseSortingMethod())
+		{
+		case 1:
+		{
+			bubbleSort(numberList);
+		}
+		case 2:
+		{
+			insertionSort(numberList);
+		}
+		case 3:
+		{
+			selectionSort(numberList);
+		}
+		}
+	}
+	displayArray(numberList);
 }
 
-void createArray(int a[10])
+void createArray(std::vector<int>& numberList)
 {
-    cout<<"Please enter 10 values."<<endl;
-    for (int j=0; j<10; j++)
-        {
-             cin>>a[j];
-        }
-    return;
+	auto numberInput = 0;
+	auto listLength = 0;
+	cout << "How many values would you like to enter?" << endl;
+	cin >> listLength;
+
+	// Make the numberlist the size of number so that it doesn't have to keep expanding
+	numberList.reserve(listLength);
+	std::cout << "Enter the values" << endl;
+	for (auto j = 0; j<listLength; j++)
+	{
+		cin >> numberInput;
+		numberList.emplace_back(numberInput);
+	}
+	return;
 }
 
 int chooseSortingMethod()
 {
-    int choice;
-    cout<<"How do you want to sort your created array?"<<endl;
-    cout<<"1. Bubble Sort"<<endl;
-    cout<<"2. Insertion Sort"<<endl;
-    cout<<"3. Selection Sort"<<endl;
-    cin>>choice;
-    while ((choice!=1) and (choice!=2) and (choice!=3))
-    {
-        cout<<"Please give a valid response."<<endl;
-        cin>>choice;
-    }
-    return choice;
+	int choice;
+	cout << "How do you want to sort your created array?" << endl;
+	cout << "1. Bubble Sort" << endl;
+	cout << "2. Insertion Sort" << endl;
+	cout << "3. Selection Sort" << endl;
+	cin >> choice;
+	while ((choice != 1) && (choice != 2) && (choice != 3))
+	{
+		cout << "Please give a valid response." << endl;
+		cin >> choice;
+	}
+	return choice;
 }
 
-void bubbleSort(int listArray[])
+void bubbleSort(std::vector<int>& numberList)
 {
-    int buffer = 0;
-    for (int i = 0; i<10; i++)
-    {
-            if (listArray[i] > listArray[i+1])
-            {
-                buffer=listArray[i];
-                listArray[i]=listArray[i+1];
-                listArray[i+1]=buffer;
-                displayArray(listArray);
-                cout<<endl;
-            }
-    }
-    return;
+	int buffer = 0;
+	for (auto i = 0; i< (numberList.size()-1) ; i++)
+	{
+		if (numberList.at(i) > numberList.at(i + 1))
+		{
+			buffer = numberList.at(i);
+			numberList.at(i) = numberList.at(i + 1);
+			numberList.at(i + 1) = buffer;
+			displayArray(numberList);
+			cout << endl;
+		}
+	}
+	return;
 }
 
-void insertionSort(int listArray[])
+void insertionSort(std::vector<int>& numberList)
 {
-    int buffer = 0;
-    for (int i = 0; i<10; i++)
-    {
-            for (int j=i-1; j>=0; j--)
-                if ((listArray[j+1] < listArray[j]))
-                {
-                    buffer=listArray[j+1];
-                    listArray[j+1]=listArray[j];
-                    listArray[j]=buffer;
-                    displayArray(listArray);
-                    cout<<endl;
-                }
-    }
-    return;
+	int buffer = 0;
+	for (auto i = 0; i<numberList.size(); i++)
+	{
+		for (auto j = i - 1; j >= 0; j--)
+			if ((numberList.at(j + 1) < numberList.at(j)))
+			{
+				buffer = numberList[j + 1];
+				numberList.at(j + 1) = numberList.at(j);
+				numberList.at(j) = buffer;
+				displayArray(numberList);
+				cout << endl;
+			}
+	}
+	return;
 }
 
-void selectionSort(int listArray[])
+void selectionSort(std::vector<int>& numberList)
 {
-    int buffer = 0;
-    for (int i = 0; i<10; i++)
-    {
-            int lowestNumber = listArray[i];
-            int lowestPosition = i;
-            for (int j = i; j<10; j++)
-            {
-                if (listArray[j] < lowestNumber)
-                {
-                    lowestNumber = listArray[j];
-                    lowestPosition = j;
-                }
-            }
-            listArray[lowestPosition] = listArray[i];
-            listArray[i] = lowestNumber;
-            displayArray(listArray);
-            cout<<endl;
-    }
-    return;
+	int buffer = 0;
+	for (auto i = 0; i<numberList.size(); i++)
+	{
+		int lowestNumber = numberList.at(i);
+		int lowestPosition = i;
+		for (auto j = i; j<numberList.size(); j++)
+		{
+			if (numberList.at(j) < lowestNumber)
+			{
+				lowestNumber = numberList.at(j);
+				lowestPosition = j;
+			}
+		}
+		numberList.at(lowestPosition) = numberList.at(i);
+		numberList.at(i) = lowestNumber;
+		displayArray(numberList);
+		cout << endl;
+	}
+	return;
 }
 
-bool checkIfSorted (int listArray[])
+bool checkIfSorted(const std::vector<int>& numberList)
 {
-    for (int i=0; i<10; i++)
-    {
-        if (listArray[i] > listArray[i+1])
-        {
-                return 0;
-        }
-    }
-    return 1;
+	for (auto i = 0; i < (numberList.size()-1); i++)
+	{
+		if (numberList.at(i) > numberList.at(i + 1))
+		{
+			return 0;
+		}
+	}
+	return 1;
 }
 
-void displayArray (int listArray[])
+void displayArray(std::vector<int>& numberList)
 {
-    for (int i=0; i<10; i++)
-    {
-        cout<<listArray[i]<<" ";
-    }
-    return;
+	for (auto i = 0; i<numberList.size(); i++)
+	{
+		cout << numberList.at(i) << " ";
+	}
+	return;
 }
-
-
