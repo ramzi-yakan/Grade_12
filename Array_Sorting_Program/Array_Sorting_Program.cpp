@@ -1,7 +1,7 @@
 /* Ramzi Yakan
    Array Sorting Program
    Sorts an array by using either the bubble sort, insertion sort, or selection sort method.
-   Feb 2 2018
+   Feb 15 2018
    */
 
 #include <cstdlib>
