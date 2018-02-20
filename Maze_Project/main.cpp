@@ -2,7 +2,10 @@
 #include <iostream>
 #include <conio.h>
 
-using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::string;
 
 void drawMaze(char maze[15][15]);
 void moveSprite(int y, int x, char maze[15][15]);
