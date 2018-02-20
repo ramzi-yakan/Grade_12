@@ -27,7 +27,7 @@ void generateCard(char card[9][9])
 
 int main()
 {
-    char card[9][9] = {};
-    /*generateCard(card);*/
+    char card[9][9];
+    generateCard(card);
     cout<<card[9][9]<<endl;
 }
