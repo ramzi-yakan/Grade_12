@@ -25,58 +25,92 @@ void generateCard(char card[9][9])
     card[8][0] = (char)200;
     card[8][8] = (char)188;
     int value = rand() % 13 +1;
+    char suit;
+    while ((suit != (char)3) and (suit != (char)4) and (suit != (char)5) and (suit != (char)6))
+    {
+        suit = rand();
+    }
     if (value == 1)
     {
-        card[4][4] = (char)65;
+        card[1][1] = (char)65;
+        card[7][7] = (char)65;
+        card[4][4] = suit;
     }
     if (value == 2)
     {
-        card[4][4] = (char)50;
+        card[1][1] = (char)50;
+        card[7][7] = (char)50;
+        card[2][4] = suit;
+        card[6][4] = suit;
     }
     if (value == 3)
     {
-        card[4][4] = (char)51;
+        card[1][1] = (char)51;
+        card[7][7] = (char)51;
+        card[2][4] = suit;
+        card[4][4] = suit;
+        card[6][4] = suit;
     }
     if (value == 4)
     {
-        card[4][4] = (char)52;
+        card[1][1] = (char)52;
+        card[7][7] = (char)52;
+        card[2][2] = suit;
+        card[2][6] = suit;
+        card[6][2] = suit;
+        card[6][6] = suit;
     }
     if (value == 5)
     {
-        card[4][4] = (char)53;
+        card[1][1] = (char)53;
+        card[7][7] = (char)53;
+        card[2][2] = suit;
+        card[2][6] = suit;
+        card[4][4] = suit;
+        card[6][2] = suit;
+        card[6][6] = suit;
     }
     if (value == 6)
     {
-        card[4][4] = (char)54;
+        card[1][1] = (char)54;
+        card[7][7] = (char)54;
     }
     if (value == 7)
     {
-        card[4][4] = (char)55;
+        card[1][1] = (char)55;
+        card[7][7] = (char)55;
     }
     if (value == 8)
     {
-        card[4][4] = (char)56;
+        card[1][1] = (char)56;
+        card[7][7] = (char)56;
     }
     if (value == 9)
     {
-        card[4][4] = (char)57;
+        card[1][1] = (char)57;
+        card[7][7] = (char)57;
     }
     if (value == 10)
     {
-        card[4][3] = (char)49;
-        card[4][5] = (char)48;
+        card[1][1] = (char)49;
+        card[1][2] = (char)48;
+        card[7][6] = (char)49;
+        card[7][7] = (char)48;
     }
     if (value == 11)
     {
-        card[4][4] = (char)74;
+        card[1][1] = (char)74;
+        card[7][7] = (char)74;
     }
     if (value == 12)
     {
-        card[4][4] = (char)81;
+        card[1][1] = (char)81;
+        card[7][7] = (char)81;
     }
     if (value == 13)
     {
-        card[4][4] = (char)76;
+        card[1][1] = (char)75;
+        card[7][7] = (char)75;
     }
 }
 
