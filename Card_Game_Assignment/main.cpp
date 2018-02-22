@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void generateCard(char card[9][9])
+void generateCard(char card[9][9], int value, char suit)
 {
     for(int i = 0; i < 9; i++)
     {
@@ -24,15 +24,6 @@ void generateCard(char card[9][9])
     card[0][8] = (char)187;
     card[8][0] = (char)200;
     card[8][8] = (char)188;
-    int value = rand() % 13 +1;
-    char suit;
-    int cards = 0;
-    while ((suit != (char)3) and (suit != (char)4) and (suit != (char)5) and (suit != (char)6))
-    {
-        suit = rand();
-    }
-    while (cards <= 10)
-    {
     if (value == 1)
     {
         card[1][1] = (char)65;
@@ -191,18 +182,19 @@ void generateCard(char card[9][9])
         card[6][6] = suit;
         card[7][7] = (char)75;
     }
-    displayCard(card);
-    cards++;
-    }
 }
 
-void displayCard(char card[9][9])
+void displayCard(char card[9][9], int amountOfCards, int value, char suit)
 {
     for(int i = 0; i < 9; i++)
     {
-        for(int j = 0; j < 9; j++)
+        for (int k = 0; k < amountOfCards; k++)
         {
-            cout<<card[i][j];
+            generateCard(card, value, suit);
+            for(int j = 0; j < 9; j++)
+            {
+                cout<<card[i][j];
+            }
         }
     cout<<endl;
     }
@@ -212,5 +204,14 @@ int main()
 {
     srand(time(NULL));
     char card[9][9];
-    generateCard(card);
+    for (int numberOfCards = 0; numberOfCards <= 8; numberOfCards++)
+    {
+        char suitOfCard = (char)255;
+        while ((suitOfCard != (char)3) and (suitOfCard != (char)4) and (suitOfCard != (char)5) and (suitOfCard != (char)6))
+        {
+            suitOfCard = rand();
+        }
+        int valueOfCard = rand() % 13 +1;
+        displayCard(card, numberOfCards, valueOfCard, suitOfCard);
+    }
 }
