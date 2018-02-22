@@ -26,10 +26,13 @@ void generateCard(char card[9][9])
     card[8][8] = (char)188;
     int value = rand() % 13 +1;
     char suit;
+    int cards = 0;
     while ((suit != (char)3) and (suit != (char)4) and (suit != (char)5) and (suit != (char)6))
     {
         suit = rand();
     }
+    while (cards <= 10)
+    {
     if (value == 1)
     {
         card[1][1] = (char)65;
@@ -74,43 +77,122 @@ void generateCard(char card[9][9])
     {
         card[1][1] = (char)54;
         card[7][7] = (char)54;
+        card[2][2] = suit;
+        card[2][6] = suit;
+        card[4][2] = suit;
+        card[4][6] = suit;
+        card[6][2] = suit;
+        card[6][6] = suit;
     }
     if (value == 7)
     {
         card[1][1] = (char)55;
+        card[2][2] = suit;
+        card[2][6] = suit;
+        card[3][4] = suit;
+        card[4][2] = suit;
+        card[4][6] = suit;
+        card[6][2] = suit;
+        card[6][6] = suit;
         card[7][7] = (char)55;
     }
     if (value == 8)
     {
         card[1][1] = (char)56;
+        card[2][2] = suit;
+        card[2][6] = suit;
+        card[3][4] = suit;
+        card[4][2] = suit;
+        card[4][6] = suit;
+        card[5][4] = suit;
+        card[6][2] = suit;
+        card[6][6] = suit;
         card[7][7] = (char)56;
     }
     if (value == 9)
     {
         card[1][1] = (char)57;
+        card[2][2] = suit;
+        card[2][6] = suit;
+        card[3][2] = suit;
+        card[3][6] = suit;
+        card[4][4] = suit;
+        card[5][2] = suit;
+        card[5][6] = suit;
+        card[6][2] = suit;
+        card[6][6] = suit;
         card[7][7] = (char)57;
     }
     if (value == 10)
     {
         card[1][1] = (char)49;
         card[1][2] = (char)48;
+        card[2][4] = suit;
+        card[3][2] = suit;
+        card[3][4] = suit;
+        card[3][6] = suit;
+        card[4][2] = suit;
+        card[4][6] = suit;
+        card[5][2] = suit;
+        card[5][4] = suit;
+        card[5][6] = suit;
+        card[6][4] = suit;
         card[7][6] = (char)49;
         card[7][7] = (char)48;
     }
     if (value == 11)
     {
         card[1][1] = (char)74;
+        card[2][4] = suit;
+        card[3][2] = suit;
+        card[3][4] = suit;
+        card[3][6] = suit;
+        card[4][2] = suit;
+        card[4][4] = suit;
+        card[4][6] = suit;
+        card[5][2] = suit;
+        card[5][4] = suit;
+        card[5][6] = suit;
+        card[6][4] = suit;
         card[7][7] = (char)74;
     }
     if (value == 12)
     {
         card[1][1] = (char)81;
+        card[2][2] = suit;
+        card[2][6] = suit;
+        card[3][2] = suit;
+        card[3][4] = suit;
+        card[3][6] = suit;
+        card[4][2] = suit;
+        card[4][6] = suit;
+        card[5][2] = suit;
+        card[5][4] = suit;
+        card[5][6] = suit;
+        card[6][2] = suit;
+        card[6][6] = suit;
         card[7][7] = (char)81;
     }
     if (value == 13)
     {
         card[1][1] = (char)75;
+        card[2][2] = suit;
+        card[2][6] = suit;
+        card[3][2] = suit;
+        card[3][4] = suit;
+        card[3][6] = suit;
+        card[4][2] = suit;
+        card[4][4] = suit;
+        card[4][6] = suit;
+        card[5][2] = suit;
+        card[5][4] = suit;
+        card[5][6] = suit;
+        card[6][2] = suit;
+        card[6][6] = suit;
         card[7][7] = (char)75;
+    }
+    displayCard(card);
+    cards++;
     }
 }
 
@@ -131,5 +213,4 @@ int main()
     srand(time(NULL));
     char card[9][9];
     generateCard(card);
-    displayCard(card);
 }
