@@ -4,24 +4,25 @@
 
 using namespace std;
 
-struct card_t
+struct card
 {
-    int value;
-    string suit;
-    int Rank;
+    int cardValue;
+    string cardSuit;
+    int cardRank;
 };
 
 struct pile
 {
-    int Size;
+    cardDeck[52];
 };
 
 struct player
 {
-
+    int numberOfCards;
+    card hand[52];
 };
 
-void initializeDeck (card_t card)
+void initializeDeck (card card)
 {
 
 }
