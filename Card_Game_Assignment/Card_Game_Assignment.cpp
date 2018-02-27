@@ -13,23 +13,46 @@ struct card
 
 struct pile
 {
-    cardDeck[52];
+    string cardDeck[52];
 };
 
 struct player
 {
     int numberOfCards;
-    card hand[52];
+    int cardhand[52];
 };
 
-void initializeDeck (card card)
+void initializeDeck ()
 {
 
 }
 
-void displayCard
+void displayCard ()
+{
+
+}
+
+void displayPile ()
+{
+
+}
+
+void displayPlayer ()
+{
+
+}
+
+void moveCard ()
+{
+
+}
+
+void shufflePile ()
+{
+
+}
 
 int main()
 {
-    cout<<"h";
+    cout<<"\u+1F0A1";
 }

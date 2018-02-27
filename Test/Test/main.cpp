@@ -186,9 +186,9 @@ void generateCard(char card[9][9], int value, int suit)
 
 void displayCard(char card[9][9], int value, int suit)
 {
-    int amountOfCards = 13;
+    int amountOfCards = 1;
     int linesRequired = amountOfCards/8;
-    if (amountOfCards % 8)
+    if (amountOfCards % 8 != 0)
     {
         linesRequired++;
     }
@@ -196,21 +196,20 @@ void displayCard(char card[9][9], int value, int suit)
     {
         for(int i = 0; i < 9; i++)
         {
-            for (int k = l*8; k < (l+1)*8; k++)
+            for (int k = 0; k<9; k++)
             {
-                if (k == amountOfCards)
+                if (k == 8)
                 {
                     cout<<endl;
                     break;
                 }
-                generateCard(card, value, (char)suit);
+
                 for(int j = 0; j < 9; j++)
                 {
                     cout<<card[i][j];
                 }
             }
         }
-    cout<<" ";
     }
 }
 
