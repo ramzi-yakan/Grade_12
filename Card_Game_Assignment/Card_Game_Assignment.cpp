@@ -7,24 +7,38 @@ using namespace std;
 struct card
 {
     int cardValue;
-    string cardSuit;
+    int cardSuit;
     int cardRank;
+    bool cardInDealersPile;
+    bool cardUsed;
+    string cardGraphics[9][9];
 };
 
 struct pile
 {
-    string cardDeck[52];
+    card cardDeck[52];
 };
 
 struct player
 {
     int numberOfCards;
-    int cardhand[52];
+    int cardHand[52];
 };
 
-void displayPile (char card[9][9], int value, int suit)
+void displayPile (card singleCard, pile deckOfCards, string cardDesign[9][9])
 {
-    int amountOfCards = 1;
+    for (int i = 0; i < 52; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            for (int k = 0; k < 9; k++)
+            {
+                deckOfCards.cardDeck[i].cardGraphics[j][k] = cardDesign[j][k];
+                cout<<deckOfCards.cardDeck[i].cardGraphics[j][k];
+            }
+        }
+    }
+    int amountOfCards = 52;
     int linesRequired = amountOfCards/8;
     if (amountOfCards % 8 != 0)
     {
@@ -36,204 +50,221 @@ void displayPile (char card[9][9], int value, int suit)
         {
             for (int k = l*8; k < (l+1)*8; k++)
             {
-                if (k == 8)
+                if (k == amountOfCards)
                 {
                     cout<<endl;
                     break;
                 }
                 for(int j = 0; j < 9; j++)
                 {
-                    cout<<card[i][j];
+
+                    cout << cardDesign[i][j];
                 }
+                cout<<" ";
             }
         }
     }
 }
 
-void initializeDeck (char card[9][9], int value, int suit)
+void initializeDeck (card singleCard, pile deckOfCards)
 {
-    for (suit = 3; suit <= 6; suit++)
+    string cardDesign[9][9];
+    while (singleCard.cardSuit <= 6)
     {
-        for (value = 1; value <= 13; value++)
+        while (singleCard.cardValue <= 13)
         {
             for(int i = 0; i < 9; i++)
             {
                 for(int j = 0; j < 9; j++)
                 {
-                    card[i][j] = (char)255;
+                    cardDesign[i][j] = (char)255;
                 }
             }
             for(int i = 0; i < 9; i++)
             {
-                card[0][i] = (char)205;
-                card[8][i] = (char)205;
-                card[i][0] = (char)186;
-                card[i][8] = (char)186;
+                cardDesign[0][i] = (char)205;
+                cardDesign[8][i] = (char)205;
+                cardDesign[i][0] = (char)186;
+                cardDesign[i][8] = (char)186;
             }
-            card[0][0] = (char)201;
-            card[0][8] = (char)187;
-            card[8][0] = (char)200;
-            card[8][8] = (char)188;
-            if (value == 1)
+            cardDesign[0][0] = (char)201;
+            cardDesign[0][8] = (char)187;
+            cardDesign[8][0] = (char)200;
+            cardDesign[8][8] = (char)188;
+            if (singleCard.cardValue == 1)
             {
-                card[1][1] = (char)65;
-                card[7][7] = (char)65;
-                card[4][4] = (char)suit;
+                cardDesign[1][1] = (char)65;
+                cardDesign[7][7] = (char)65;
+                cardDesign[4][4] = (char)singleCard.cardSuit;
+                singleCard.cardValue++;
             }
-            if (value == 2)
+            else if (singleCard.cardValue == 2)
             {
-                card[1][1] = (char)50;
-                card[7][7] = (char)50;
-                card[2][4] = (char)suit;
-                card[6][4] = (char)suit;
+                cardDesign[1][1] = (char)50;
+                cardDesign[7][7] = (char)50;
+                cardDesign[2][4] = (char)singleCard.cardSuit;
+                cardDesign[6][4] = (char)singleCard.cardSuit;
+                singleCard.cardValue++;
             }
-            if (value == 3)
+            else if (singleCard.cardValue == 3)
             {
-                card[1][1] = (char)51;
-                card[7][7] = (char)51;
-                card[2][4] = (char)suit;
-                card[4][4] = (char)suit;
-                card[6][4] = (char)suit;
+                cardDesign[1][1] = (char)51;
+                cardDesign[7][7] = (char)51;
+                cardDesign[2][4] = (char)singleCard.cardSuit;
+                cardDesign[4][4] = (char)singleCard.cardSuit;
+                cardDesign[6][4] = (char)singleCard.cardSuit;
+                singleCard.cardValue++;
             }
-            if (value == 4)
+            else if (singleCard.cardValue == 4)
             {
-                card[1][1] = (char)52;
-                card[7][7] = (char)52;
-                card[2][2] = (char)suit;
-                card[2][6] = (char)suit;
-                card[6][2] = (char)suit;
-                card[6][6] = (char)suit;
+                cardDesign[1][1] = (char)52;
+                cardDesign[7][7] = (char)52;
+                cardDesign[2][2] = (char)singleCard.cardSuit;
+                cardDesign[2][6] = (char)singleCard.cardSuit;
+                cardDesign[6][2] = (char)singleCard.cardSuit;
+                cardDesign[6][6] = (char)singleCard.cardSuit;
+                singleCard.cardValue++;
             }
-            if (value == 5)
+            else if (singleCard.cardValue == 5)
             {
-                card[1][1] = (char)53;
-                card[7][7] = (char)53;
-                card[2][2] = (char)suit;
-                card[2][6] = (char)suit;
-                card[4][4] = (char)suit;
-                card[6][2] = (char)suit;
-                card[6][6] = (char)suit;
+                cardDesign[1][1] = (char)53;
+                cardDesign[7][7] = (char)53;
+                cardDesign[2][2] = (char)singleCard.cardSuit;
+                cardDesign[2][6] = (char)singleCard.cardSuit;
+                cardDesign[4][4] = (char)singleCard.cardSuit;
+                cardDesign[6][2] = (char)singleCard.cardSuit;
+                cardDesign[6][6] = (char)singleCard.cardSuit;
+                singleCard.cardValue++;
             }
-            if (value == 6)
+            else if (singleCard.cardValue == 6)
             {
-                card[1][1] = (char)54;
-                card[7][7] = (char)54;
-                card[2][2] = (char)suit;
-                card[2][6] = (char)suit;
-                card[4][2] = (char)suit;
-                card[4][6] = (char)suit;
-                card[6][2] = (char)suit;
-                card[6][6] = (char)suit;
+                cardDesign[1][1] = (char)54;
+                cardDesign[7][7] = (char)54;
+                cardDesign[2][2] = (char)singleCard.cardSuit;
+                cardDesign[2][6] = (char)singleCard.cardSuit;
+                cardDesign[4][2] = (char)singleCard.cardSuit;
+                cardDesign[4][6] = (char)singleCard.cardSuit;
+                cardDesign[6][2] = (char)singleCard.cardSuit;
+                cardDesign[6][6] = (char)singleCard.cardSuit;
+                singleCard.cardValue++;
             }
-            if (value == 7)
+            else if (singleCard.cardValue == 7)
             {
-                card[1][1] = (char)55;
-                card[2][2] = (char)suit;
-                card[2][6] = (char)suit;
-                card[3][4] = (char)suit;
-                card[4][2] = (char)suit;
-                card[4][6] = (char)suit;
-                card[6][2] = (char)suit;
-                card[6][6] = (char)suit;
-                card[7][7] = (char)55;
+                cardDesign[1][1] = (char)55;
+                cardDesign[2][2] = (char)singleCard.cardSuit;
+                cardDesign[2][6] = (char)singleCard.cardSuit;
+                cardDesign[3][4] = (char)singleCard.cardSuit;
+                cardDesign[4][2] = (char)singleCard.cardSuit;
+                cardDesign[4][6] = (char)singleCard.cardSuit;
+                cardDesign[6][2] = (char)singleCard.cardSuit;
+                cardDesign[6][6] = (char)singleCard.cardSuit;
+                cardDesign[7][7] = (char)55;
+                singleCard.cardValue++;
             }
-            if (value == 8)
+            else if (singleCard.cardValue == 8)
             {
-                card[1][1] = (char)56;
-                card[2][2] = (char)suit;
-                card[2][6] = (char)suit;
-                card[3][4] = (char)suit;
-                card[4][2] = (char)suit;
-                card[4][6] = (char)suit;
-                card[5][4] = (char)suit;
-                card[6][2] = (char)suit;
-                card[6][6] = (char)suit;
-                card[7][7] = (char)56;
+                cardDesign[1][1] = (char)56;
+                cardDesign[2][2] = (char)singleCard.cardSuit;
+                cardDesign[2][6] = (char)singleCard.cardSuit;
+                cardDesign[3][4] = (char)singleCard.cardSuit;
+                cardDesign[4][2] = (char)singleCard.cardSuit;
+                cardDesign[4][6] = (char)singleCard.cardSuit;
+                cardDesign[5][4] = (char)singleCard.cardSuit;
+                cardDesign[6][2] = (char)singleCard.cardSuit;
+                cardDesign[6][6] = (char)singleCard.cardSuit;
+                cardDesign[7][7] = (char)56;
+                singleCard.cardValue++;
             }
-            if (value == 9)
+            else if (singleCard.cardValue == 9)
             {
-                card[1][1] = (char)57;
-                card[2][2] = (char)suit;
-                card[2][6] = (char)suit;
-                card[3][2] = (char)suit;
-                card[3][6] = (char)suit;
-                card[4][4] = (char)suit;
-                card[5][2] = (char)suit;
-                card[5][6] = (char)suit;
-                card[6][2] = (char)suit;
-                card[6][6] = (char)suit;
-                card[7][7] = (char)57;
+                cardDesign[1][1] = (char)57;
+                cardDesign[2][2] = (char)singleCard.cardSuit;
+                cardDesign[2][6] = (char)singleCard.cardSuit;
+                cardDesign[3][2] = (char)singleCard.cardSuit;
+                cardDesign[3][6] = (char)singleCard.cardSuit;
+                cardDesign[4][4] = (char)singleCard.cardSuit;
+                cardDesign[5][2] = (char)singleCard.cardSuit;
+                cardDesign[5][6] = (char)singleCard.cardSuit;
+                cardDesign[6][2] = (char)singleCard.cardSuit;
+                cardDesign[6][6] = (char)singleCard.cardSuit;
+                cardDesign[7][7] = (char)57;
+                singleCard.cardValue++;
             }
-            if (value == 10)
+            else if (singleCard.cardValue == 10)
             {
-                card[1][1] = (char)49;
-                card[1][2] = (char)48;
-                card[2][4] = (char)suit;
-                card[3][2] = (char)suit;
-                card[3][4] = (char)suit;
-                card[3][6] = (char)suit;
-                card[4][2] = (char)suit;
-                card[4][6] = (char)suit;
-                card[5][2] = (char)suit;
-                card[5][4] = (char)suit;
-                card[5][6] = (char)suit;
-                card[6][4] = (char)suit;
-                card[7][6] = (char)49;
-                card[7][7] = (char)48;
+                cardDesign[1][1] = (char)49;
+                cardDesign[1][2] = (char)48;
+                cardDesign[2][4] = (char)singleCard.cardSuit;
+                cardDesign[3][2] = (char)singleCard.cardSuit;
+                cardDesign[3][4] = (char)singleCard.cardSuit;
+                cardDesign[3][6] = (char)singleCard.cardSuit;
+                cardDesign[4][2] = (char)singleCard.cardSuit;
+                cardDesign[4][6] = (char)singleCard.cardSuit;
+                cardDesign[5][2] = (char)singleCard.cardSuit;
+                cardDesign[5][4] = (char)singleCard.cardSuit;
+                cardDesign[5][6] = (char)singleCard.cardSuit;
+                cardDesign[6][4] = (char)singleCard.cardSuit;
+                cardDesign[7][6] = (char)49;
+                cardDesign[7][7] = (char)48;
+                singleCard.cardValue++;
             }
-            if (value == 11)
+            else if (singleCard.cardValue == 11)
             {
-                card[1][1] = (char)74;
-                card[2][4] = (char)suit;
-                card[3][2] = (char)suit;
-                card[3][4] = (char)suit;
-                card[3][6] = (char)suit;
-                card[4][2] = (char)suit;
-                card[4][4] = (char)suit;
-                card[4][6] = (char)suit;
-                card[5][2] = (char)suit;
-                card[5][4] = (char)suit;
-                card[5][6] = (char)suit;
-                card[6][4] = (char)suit;
-                card[7][7] = (char)74;
+                cardDesign[1][1] = (char)74;
+                cardDesign[2][4] = (char)singleCard.cardSuit;
+                cardDesign[3][2] = (char)singleCard.cardSuit;
+                cardDesign[3][4] = (char)singleCard.cardSuit;
+                cardDesign[3][6] = (char)singleCard.cardSuit;
+                cardDesign[4][2] = (char)singleCard.cardSuit;
+                cardDesign[4][4] = (char)singleCard.cardSuit;
+                cardDesign[4][6] = (char)singleCard.cardSuit;
+                cardDesign[5][2] = (char)singleCard.cardSuit;
+                cardDesign[5][4] = (char)singleCard.cardSuit;
+                cardDesign[5][6] = (char)singleCard.cardSuit;
+                cardDesign[6][4] = (char)singleCard.cardSuit;
+                cardDesign[7][7] = (char)74;
+                singleCard.cardValue++;
             }
-            if (value == 12)
+            else if (singleCard.cardValue == 12)
             {
-                card[1][1] = (char)81;
-                card[2][2] = (char)suit;
-                card[2][6] = (char)suit;
-                card[3][2] = (char)suit;
-                card[3][4] = (char)suit;
-                card[3][6] = (char)suit;
-                card[4][2] = (char)suit;
-                card[4][6] = (char)suit;
-                card[5][2] = (char)suit;
-                card[5][4] = (char)suit;
-                card[5][6] = (char)suit;
-                card[6][2] = (char)suit;
-                card[6][6] = (char)suit;
-                card[7][7] = (char)81;
+                cardDesign[1][1] = (char)81;
+                cardDesign[2][2] = (char)singleCard.cardSuit;
+                cardDesign[2][6] = (char)singleCard.cardSuit;
+                cardDesign[3][2] = (char)singleCard.cardSuit;
+                cardDesign[3][4] = (char)singleCard.cardSuit;
+                cardDesign[3][6] = (char)singleCard.cardSuit;
+                cardDesign[4][2] = (char)singleCard.cardSuit;
+                cardDesign[4][6] = (char)singleCard.cardSuit;
+                cardDesign[5][2] = (char)singleCard.cardSuit;
+                cardDesign[5][4] = (char)singleCard.cardSuit;
+                cardDesign[5][6] = (char)singleCard.cardSuit;
+                cardDesign[6][2] = (char)singleCard.cardSuit;
+                cardDesign[6][6] = (char)singleCard.cardSuit;
+                cardDesign[7][7] = (char)81;
+                singleCard.cardValue++;
             }
-            if (value == 13)
+            else if (singleCard.cardValue == 13)
             {
-                card[1][1] = (char)75;
-                card[2][2] = (char)suit;
-                card[2][6] = (char)suit;
-                card[3][2] = (char)suit;
-                card[3][4] = (char)suit;
-                card[3][6] = (char)suit;
-                card[4][2] = (char)suit;
-                card[4][4] = (char)suit;
-                card[4][6] = (char)suit;
-                card[5][2] = (char)suit;
-                card[5][4] = (char)suit;
-                card[5][6] = (char)suit;
-                card[6][2] = (char)suit;
-                card[6][6] = (char)suit;
-                card[7][7] = (char)75;
+                cardDesign[1][1] = (char)75;
+                cardDesign[2][2] = (char)singleCard.cardSuit;
+                cardDesign[2][6] = (char)singleCard.cardSuit;
+                cardDesign[3][2] = (char)singleCard.cardSuit;
+                cardDesign[3][4] = (char)singleCard.cardSuit;
+                cardDesign[3][6] = (char)singleCard.cardSuit;
+                cardDesign[4][2] = (char)singleCard.cardSuit;
+                cardDesign[4][4] = (char)singleCard.cardSuit;
+                cardDesign[4][6] = (char)singleCard.cardSuit;
+                cardDesign[5][2] = (char)singleCard.cardSuit;
+                cardDesign[5][4] = (char)singleCard.cardSuit;
+                cardDesign[5][6] = (char)singleCard.cardSuit;
+                cardDesign[6][2] = (char)singleCard.cardSuit;
+                cardDesign[6][6] = (char)singleCard.cardSuit;
+                cardDesign[7][7] = (char)75;
+                singleCard.cardValue++;
             }
-            displayPile(card, value, suit);
+            displayPile(singleCard, deckOfCards, cardDesign);
         }
+        singleCard.cardSuit++;
     }
 }
 
@@ -247,20 +278,33 @@ void displayPlayer ()
 
 }
 
-void moveCard ()
+player moveCard (player playerInput, pile &pileInput)
 {
-
+    int amountOfCards = 52;
+    while (true)
+    {
+        for (int i = 0; i < 52; i++)
+        {
+            if (pileInput.cardDeck[i].cardInDealersPile)
+        }
+    }
 }
 
-void shufflePile ()
+void shufflePile (card singleCard, pile deckOfCards)
 {
-
+    for (int i = 0; i < 1000; i++)
+    {
+        int j = rand() % 52;
+        card buffer = deckOfCards.cardDeck[52];
+        deckOfCards.cardDeck[52] = deckOfCards.cardDeck[j];
+        deckOfCards.cardDeck[j] = buffer;
+    }
 }
 
 int main()
 {
-    char card[9][9];
-    int value;
-    int suit;
-    initializeDeck(card, value, suit);
+    card _card;
+    pile _pile;
+    initializeDeck(_card, _pile);
+    shufflePile(_card, _pile);
 }

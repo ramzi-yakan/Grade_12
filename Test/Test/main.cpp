@@ -186,19 +186,12 @@ void generateCard(char card[9][9], int value, int suit)
 
 void displayCard(char card[9][9], int value, int suit)
 {
-    int amountOfCards = 1;
-    int linesRequired = amountOfCards/8;
-    if (amountOfCards % 8 != 0)
-    {
-        linesRequired++;
-    }
-    for (int l = 0; l< linesRequired; l++)
-    {
+
         for(int i = 0; i < 9; i++)
         {
-            for (int k = l*8; k < (l+1)*8; k++)
+            for (int k = 0; k <= 8; k++)
             {
-                if (k == amountOfCards)
+                if (k == 8)
                 {
                     cout<<endl;
                     break;
@@ -210,7 +203,7 @@ void displayCard(char card[9][9], int value, int suit)
                 }
             }
         }
-    }
+
 }
 
 void initializeDeck()
