@@ -21,54 +21,13 @@ struct pile
 
 struct player
 {
+    card cardHand[52];
     int numberOfCards;
-    int cardHand[52];
 };
 
-void displayPile (card singleCard, pile deckOfCards, string cardDesign[9][9])
-{
-    for (int i = 0; i < 52; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {
-            for (int k = 0; k < 9; k++)
-            {
-                deckOfCards.cardDeck[i].cardGraphics[j][k] = cardDesign[j][k];
-                cout<<deckOfCards.cardDeck[i].cardGraphics[j][k];
-            }
-        }
-    }
-    int amountOfCards = 52;
-    int linesRequired = amountOfCards/8;
-    if (amountOfCards % 8 != 0)
-    {
-        linesRequired++;
-    }
-    for (int l = 0; l< linesRequired; l++)
-    {
-        for(int i = 0; i < 9; i++)
-        {
-            for (int k = l*8; k < (l+1)*8; k++)
-            {
-                if (k == amountOfCards)
-                {
-                    cout<<endl;
-                    break;
-                }
-                for(int j = 0; j < 9; j++)
-                {
 
-                    cout << cardDesign[i][j];
-                }
-                cout<<" ";
-            }
-        }
-    }
-}
-
-void initializeDeck (card singleCard, pile deckOfCards)
+void initializeDeck (card singleCard, pile deckOfCards, string cardDesign[9][9])
 {
-    string cardDesign[9][9];
     while (singleCard.cardSuit <= 6)
     {
         while (singleCard.cardValue <= 13)
@@ -262,10 +221,50 @@ void initializeDeck (card singleCard, pile deckOfCards)
                 cardDesign[7][7] = (char)75;
                 singleCard.cardValue++;
             }
-            displayPile(singleCard, deckOfCards, cardDesign);
         }
         singleCard.cardSuit++;
     }
+}
+
+void displayPile (card singleCard, pile deckOfCards, string cardDesign[9][9])
+{
+    initializeDeck(singleCard, deckOfCards, cardDesign);
+    for (int i = 0; i < 52; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            for (int k = 0; k < 9; k++)
+            {
+                deckOfCards.cardDeck[i].cardGraphics[j][k] = cardDesign[j][k];
+                cout<<deckOfCards.cardDeck[i].cardGraphics[j][k];
+            }
+        }
+    }
+    /*int amountOfCards = 1;
+    int linesRequired = amountOfCards/8;
+    if (amountOfCards % 8 != 0)
+    {
+        linesRequired++;
+    }
+    for (int l = 0; l< linesRequired; l++)
+    {
+        for(int i = 0; i < 9; i++)
+        {
+            for (int k = l*8; k < (l+1)*8; k++)
+            {
+                if (k == amountOfCards)
+                {
+                    cout<<endl;
+                    break;
+                }
+                for(int j = 0; j < 9; j++)
+                {
+                    cout << cardDesign[i][j];
+                }
+                cout<<" ";
+            }
+        }
+    }*/
 }
 
 void displayCard ()
@@ -278,19 +277,7 @@ void displayPlayer ()
 
 }
 
-player moveCard (player playerInput, pile &pileInput)
-{
-    int amountOfCards = 52;
-    while (true)
-    {
-        for (int i = 0; i < 52; i++)
-        {
-            if (pileInput.cardDeck[i].cardInDealersPile)
-        }
-    }
-}
-
-void shufflePile (card singleCard, pile deckOfCards)
+pile shufflePile (card singleCard, pile deckOfCards)
 {
     for (int i = 0; i < 1000; i++)
     {
@@ -301,10 +288,35 @@ void shufflePile (card singleCard, pile deckOfCards)
     }
 }
 
+player moveCard (card singleCard, pile &pileInput, player playerInput)
+{
+    int cardsDealt = 52;
+    while (true)
+    {
+        for (int i = 0; i < 52; i++)
+        {
+            if (pileInput.cardDeck[i].cardInDealersPile == true)
+            {
+                pileInput.cardDeck[i].cardInDealersPile == false;
+                playerInput.cardHand[playerInput.numberOfCards] = pileInput.cardDeck[i];
+                playerInput.numberOfCards++;
+            }
+            if(playerInput.numberOfCards == cardsDealt)
+            {
+                return playerInput;
+            }
+            cout<<"Shuffling..."<<endl;
+            pileInput = shufflePile(singleCard, pileInput);
+        }
+    }
+}
+
 int main()
 {
     card _card;
     pile _pile;
-    initializeDeck(_card, _pile);
-    shufflePile(_card, _pile);
+    player _player;
+    string design[9][9];
+    displayPile(_card, _pile, design);
+    moveCard(_card, _pile, _player);
 }
