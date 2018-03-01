@@ -191,7 +191,7 @@ void displayCard(char card[9][9], int value, int suit)
         {
             for (int k = 0; k <= 8; k++)
             {
-                if (k == 8)
+                if (k == 1)
                 {
                     cout<<endl;
                     break;
