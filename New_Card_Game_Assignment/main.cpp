@@ -13,7 +13,7 @@ struct Card
 {
 
     string suit;    // card's suit
-    string Rank;    // card's ranking (Queen, Jack, King, Ace)
+    int Rank;    // card's ranking
     int value;      // card's numeric value
 };
 
@@ -35,28 +35,33 @@ struct Pile
 
 };
 
-void displayDeck(Card[]);
-void displayCard(Card);
-Card clearCard(Card);
-void shuffleDeck(Card[]);
-void initializeDeck(Card[]);
-void initializePile(Pile);
-void moveCard(Card,Pile);
-void displayPlayer(Player);
+// display one card
+void displayCard(Card theCard)
+{
+    // displays the properties of a Card
+
+    cout << "Value:" << " ";
+    cout << theCard.value << " " << endl;
+    cout << "Suit:" << " ";
+    cout << theCard.suit << " " << endl;
+    cout << "Rank:" << " " << endl;
+    cout << theCard.Rank << " " << endl;
+    cout << endl;
+}
 
 // displays the deck
-void displayDeck(Card deck[])
+void displayDeck(Pile thePile)
 {
     // loops from position 0 to position 51
     for(int i=0; i<52; i++)
     {
         // calls display card function 52 times to display entire deck
-       displayCard(deck[i]);
+       displayCard(thePile.playedCards[i]);
     }
 }
 
 // Creates each card in deck
-void initializeDeck(Card deck[])
+void initializeDeck(Pile thePile)
 {
         // loops from position 0 to position 9
         // initializes all card's of Diamond suit
@@ -64,26 +69,26 @@ void initializeDeck(Card deck[])
         for(int j=0; j<10; j++)
         {
               // initializes card's value
-             deck[j].value = j+1;
+             thePile.playedCards[j].value = j+1;
 
              // initializes card's suit
-             deck[j].suit = "Diamond";
+             thePile.playedCards[j].suit = "Diamond";
 
         }
              // initializes the cards with a specific ranking
 
-             deck[0].value = 1;
-             deck[0].Rank = "Ace";
-             deck[0].suit = "Diamond";
-             deck[10].value = 10;
-             deck[10].Rank = "Jack";
-             deck[10].suit = "Diamond";
-             deck[11].value = 10;
-             deck[11].Rank = "Queen";
-             deck[11].suit = "Diamond";
-             deck[12].value = 10;
-             deck[12].Rank = "King";
-             deck[12].suit = "Diamond";
+             thePile.playedCards[0].value = 1;
+             thePile.playedCards[0].Rank = 13;
+             thePile.playedCards[0].suit = "Diamond";
+             thePile.playedCards[10].value = 11;
+             thePile.playedCards[10].Rank = 10;
+             thePile.playedCards[10].suit = "Diamond";
+             thePile.playedCards[11].value = 12;
+             thePile.playedCards[11].Rank = 11;
+             thePile.playedCards[11].suit = "Diamond";
+             thePile.playedCards[12].value = 13;
+             thePile.playedCards[12].Rank = 12;
+             thePile.playedCards[12].suit = "Diamond";
 
 
          // loops from position 13 to position 22
@@ -92,25 +97,25 @@ void initializeDeck(Card deck[])
         for(int j=13; j<23; j++)
         {
             // initializes the card's value
-            deck[j].value = j-12;
+            thePile.playedCards[j].value = j-12;
 
             // initializes the card's suit
-            deck[j].suit = "Spades";
+            thePile.playedCards[j].suit = "Spades";
         }
            //initializes the cards with specific ranking
 
-           deck[13].value = 1;
-           deck[13].suit = "Spades";
-           deck[13].Rank = "Ace";
-           deck[23].value = 10;
-           deck[23].suit = "Spades";
-           deck[23].Rank = "Jack";
-           deck[24].value = 10;
-           deck[24].suit = "Spades";
-           deck[24].Rank = "Queen";
-           deck[25].value = 10;
-           deck[25].suit = "Spades";
-           deck[25].Rank = "King";
+            thePile.playedCards[13].value = 1;
+            thePile.playedCards[13].Rank = 13;
+            thePile.playedCards[13].suit = "Spades";
+            thePile.playedCards[23].value = 11;
+            thePile.playedCards[23].Rank = 10;
+            thePile.playedCards[23].suit = "Spades";
+            thePile.playedCards[24].value = 12;
+            thePile.playedCards[24].Rank = 11;
+            thePile.playedCards[24].suit = "Spades";
+            thePile.playedCards[25].value = 13;
+            thePile.playedCards[25].Rank = 12;
+            thePile.playedCards[25].suit = "Spades";
 
 
        // loops from position 26 to position 36
@@ -118,57 +123,56 @@ void initializeDeck(Card deck[])
        for(int j=26; j<37; j++)
        {
            // initializes the card value
-           deck[j].value = j-25;
+           thePile.playedCards[j].value = j-25;
 
            // initializes the card suit
-           deck[j].suit = "Hearts";
+           thePile.playedCards[j].suit = "Hearts";
        }
 
        // initializes cards with specific rankings
 
-       deck[26].value = 1;
-       deck[26].suit = "Hearts";
-       deck[26].Rank = "Ace";
-       deck[36].value = 10;
-       deck[36].suit = "Hearts";
-       deck[36].Rank = "Jack";
-       deck[37].value = 10;
-       deck[37].suit = "Hearts";
-       deck[37].Rank = "Queen";
-       deck[38].value = 10;
-       deck[38].suit = "Hearts";
-       deck[38].Rank = "King";
-
+           thePile.playedCards[26].value = 1;
+           thePile.playedCards[26].Rank = 13;
+           thePile.playedCards[26].suit = "Hearts";
+           thePile.playedCards[36].value = 11;
+           thePile.playedCards[36].Rank = 10;
+           thePile.playedCards[36].suit = "Hearts";
+           thePile.playedCards[37].value = 12;
+           thePile.playedCards[37].Rank = 11;
+           thePile.playedCards[37].suit = "Hearts";
+           thePile.playedCards[38].value = 13;
+           thePile.playedCards[38].Rank = 12;
+           thePile.playedCards[38].suit = "Hearts";
         // loops from position 39 to position 48
 
         for(int j=39; j<49; j++)
         {
             // initializes card value
-            deck[j].value = j-38;
+            thePile.playedCards[j].value = j-38;
 
             // initializes card suit
-            deck[j].suit = "Cloves";
+            thePile.playedCards[j].suit = "Cloves";
         }
 
          // initializes cards with specific rankings
 
-        deck[39].value = 1;
-        deck[39].suit = "Cloves";
-        deck[39].Rank = "Ace";
-        deck[49].value = 10;
-        deck[49].suit = "Cloves";
-        deck[49].Rank = "Jack";
-        deck[50].value = 10;
-        deck[50].suit = "Cloves";
-        deck[50].Rank = "Queen";
-        deck[51].value = 10;
-        deck[51].suit = "Cloves";
-        deck[51].Rank = "King";
+            thePile.playedCards[39].value = 1;
+            thePile.playedCards[39].Rank = 13;
+            thePile.playedCards[39].suit = "Cloves";
+            thePile.playedCards[49].value = 11;
+            thePile.playedCards[49].Rank = 10;
+            thePile.playedCards[49].suit = "Cloves";
+            thePile.playedCards[50].value = 12;
+            thePile.playedCards[50].Rank = 11;
+            thePile.playedCards[50].suit = "Cloves";
+            thePile.playedCards[51].value = 13;
+            thePile.playedCards[51].Rank = 12;
+            thePile.playedCards[51].suit = "Cloves";
 
 }
 
 // shuffles a deck of cards
-void shuffleDeck(Card deck[])
+void shuffleDeck(Pile thePile)
 {
     // loops from position 51 to 1
     for(int i=51; i>0; i--)
@@ -177,17 +181,29 @@ void shuffleDeck(Card deck[])
         int r = rand() % i;
 
         // assigns position i as max position
-        Card atMax = deck[i];
+        Card atMax = thePile.playedCards[i];
 
         // assigns position r as random position
-        Card atRandom = deck[r];
+        Card atRandom = thePile.playedCards[r];
 
         // swaps max position and random position
-        deck[r] = atMax;
-        deck[i] = atRandom;
+        thePile.playedCards[r] = atMax;
+        thePile.playedCards[i] = atRandom;
     }
 
 }
+
+// deletes a card
+Card clearCard(Card theCard)
+{
+    // erases all properties of that card
+    theCard.value = 0;
+    theCard.suit = "";
+    theCard.Rank = 0;
+
+    return theCard;
+}
+
 // initializes the pile
 void initializePile(Pile thePile)
 {
@@ -202,17 +218,6 @@ void initializePile(Pile thePile)
     thePile.position = 51;
 }
 
-// deletes a card
-Card clearCard(Card theCard)
-{
-    // erases all properties of that card
-    theCard.value = 0;
-    theCard.suit = "";
-    theCard.Rank = "";
-
-    return theCard;
-}
-
 // moves a card from hand to pile
 void moveCard(Card theCard, Pile thePile)
 {
@@ -221,19 +226,6 @@ void moveCard(Card theCard, Pile thePile)
 
     // update position to next empty slot
     thePile.position--;
-}
-
-// display one card
-void displayCard(Card theCard)
-{
-    // displays the properties of a Card
-
-    cout << "Value:" << " ";
-    cout << theCard.value << " " << endl;
-    cout << "Suit:" << " ";
-    cout << theCard.suit << " " << endl;
-    cout << theCard.Rank << " " << endl;
-    cout << endl;
 }
 
 // displays a Player
@@ -262,10 +254,10 @@ int main()
     Card card;
     Player player;
     Pile pile;
-    initializeDeck(card);
     initializePile(pile);
-    shuffleDeck(card);
-    displayDeck(card);
+    initializeDeck(pile);
+    shuffleDeck(pile);
+    displayDeck(pile);
     moveCard(card, pile);
     displayPlayer(player);
     return 0;
