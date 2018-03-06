@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <ctime>
 
 
 using namespace std;
@@ -14,7 +15,8 @@ struct Card
 
     string suit;    // card's suit
     int Rank;    // card's ranking
-    int value;      // card's numeric value
+    int value;   // card's numeric value
+    string stringValue;
 };
 
 // properties of a Player
@@ -41,10 +43,33 @@ void displayCard(Card theCard)
     // displays the properties of a Card
 
     cout << "Value:" << " ";
-    cout << theCard.value << " " << endl;
+    if (theCard.value == 1)
+    {
+        theCard.stringValue = "A";
+        cout << theCard.stringValue << " " << endl;
+    }
+    else if (theCard.value == 11)
+    {
+        theCard.stringValue = "J";
+        cout << theCard.stringValue << " " << endl;
+    }
+    else if (theCard.value == 12)
+    {
+        theCard.stringValue = "Q";
+        cout << theCard.stringValue << " " << endl;
+    }
+    else if (theCard.value == 13)
+    {
+        theCard.stringValue = "K";
+        cout << theCard.stringValue << " " << endl;
+    }
+    else
+    {
+        cout << theCard.value << " " << endl;
+    }
     cout << "Suit:" << " ";
     cout << theCard.suit << " " << endl;
-    cout << "Rank:" << " " << endl;
+    cout << "Rank:" << " ";
     cout << theCard.Rank << " " << endl;
     cout << endl;
 }
@@ -53,7 +78,7 @@ void displayCard(Card theCard)
 void displayDeck(Pile thePile)
 {
     // loops from position 0 to position 51
-    for(int i=0; i<52; i++)
+    for(int i=0; i<13; i++)
     {
         // calls display card function 52 times to display entire deck
        displayCard(thePile.playedCards[i]);
@@ -61,18 +86,19 @@ void displayDeck(Pile thePile)
 }
 
 // Creates each card in deck
-void initializeDeck(Pile thePile)
+Pile initializeDeck(Pile thePile)
 {
         // loops from position 0 to position 9
         // initializes all card's of Diamond suit
 
-        for(int j=0; j<10; j++)
+        for(int j=1; j<10; j++)
         {
               // initializes card's value
              thePile.playedCards[j].value = j+1;
 
              // initializes card's suit
              thePile.playedCards[j].suit = "Diamond";
+             thePile.playedCards[j].Rank = j;
 
         }
              // initializes the cards with a specific ranking
@@ -94,13 +120,15 @@ void initializeDeck(Pile thePile)
          // loops from position 13 to position 22
          // initializes  cards of suit Spades
 
-        for(int j=13; j<23; j++)
+        for(int j=14; j<23; j++)
         {
             // initializes the card's value
             thePile.playedCards[j].value = j-12;
 
             // initializes the card's suit
             thePile.playedCards[j].suit = "Spades";
+            thePile.playedCards[j].Rank = j-13;
+
         }
            //initializes the cards with specific ranking
 
@@ -120,13 +148,15 @@ void initializeDeck(Pile thePile)
 
        // loops from position 26 to position 36
 
-       for(int j=26; j<37; j++)
+       for(int j=27; j<36; j++)
        {
            // initializes the card value
            thePile.playedCards[j].value = j-25;
 
            // initializes the card suit
            thePile.playedCards[j].suit = "Hearts";
+           thePile.playedCards[j].Rank = j-26;
+
        }
 
        // initializes cards with specific rankings
@@ -145,13 +175,14 @@ void initializeDeck(Pile thePile)
            thePile.playedCards[38].suit = "Hearts";
         // loops from position 39 to position 48
 
-        for(int j=39; j<49; j++)
+        for(int j=40; j<49; j++)
         {
             // initializes card value
             thePile.playedCards[j].value = j-38;
 
             // initializes card suit
             thePile.playedCards[j].suit = "Cloves";
+            thePile.playedCards[j].Rank = j-39;
         }
 
          // initializes cards with specific rankings
@@ -168,12 +199,14 @@ void initializeDeck(Pile thePile)
             thePile.playedCards[51].value = 13;
             thePile.playedCards[51].Rank = 12;
             thePile.playedCards[51].suit = "Cloves";
+            return thePile;
 
 }
 
 // shuffles a deck of cards
-void shuffleDeck(Pile thePile)
+Pile shuffleDeck(Pile thePile)
 {
+    srand(time(NULL));
     // loops from position 51 to 1
     for(int i=51; i>0; i--)
     {
@@ -190,7 +223,7 @@ void shuffleDeck(Pile thePile)
         thePile.playedCards[r] = atMax;
         thePile.playedCards[i] = atRandom;
     }
-
+    return thePile;
 }
 
 // deletes a card
@@ -205,7 +238,7 @@ Card clearCard(Card theCard)
 }
 
 // initializes the pile
-void initializePile(Pile thePile)
+Pile initializePile(Pile thePile)
 {
     // loops from position 0 to 51
     for(int i=0; i<52; i++)
@@ -216,25 +249,27 @@ void initializePile(Pile thePile)
 
     // first available position is furthermost, 51
     thePile.position = 51;
+    return thePile;
 }
 
 // moves a card from hand to pile
-void moveCard(Card theCard, Pile thePile)
+/*void moveCard(Card theCard, Pile thePile)
 {
     // card from hand goes to pile array
     thePile.playedCards[thePile.position] = theCard;
 
     // update position to next empty slot
     thePile.position--;
-}
+}*/
 
 // displays a Player
 void displayPlayer(Player thePlayer)
 {
+    thePlayer.cardCount = 13;
     // displays the properties of a Player
 
     cout << thePlayer.name << " ";
-    cout << thePlayer.cardCount << " ";
+    cout << thePlayer.cardCount << " cards";
 
     // displays user's hand
     for(int i=0; i<thePlayer.cardCount; i++)
@@ -254,12 +289,16 @@ int main()
     Card card;
     Player player;
     Pile pile;
-    initializePile(pile);
-    initializeDeck(pile);
-    shuffleDeck(pile);
+    cout << "Please enter your name." << endl;
+    cin >> player.name;
+    cout << endl;
+    pile = initializePile(pile);
+    pile = initializeDeck(pile);
+    pile = shuffleDeck(pile);
     displayDeck(pile);
-    moveCard(card, pile);
+    //moveCard(card, pile);
     displayPlayer(player);
+    cout<<endl;
     return 0;
 }
 
