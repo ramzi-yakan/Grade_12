@@ -37,6 +37,27 @@ struct Pile
 
 };
 
+/*void sortHand(Pile thePile)
+{
+    int buffer = 0;
+    for (int i = 0; i<sizeOfArray; i++)
+    {
+            for (int j = i-1; j >= 0; j--)
+            {
+                if ((listArray[j+1] < listArray[j]))
+                {
+                    buffer = listArray[j+1];
+                    listArray[j+1] = listArray[j];
+                    listArray[j] = buffer;
+                    displayArray(listArray, sizeOfArray);
+                    cout<<endl<<endl;
+                }
+            }
+
+    }
+    return;
+}*/
+
 // display one card
 void displayCard(Card theCard)
 {
@@ -75,14 +96,29 @@ void displayCard(Card theCard)
 }
 
 // displays the deck
-void displayDeck(Pile thePile)
+Player displayDeck(Pile thePile, Player thePlayer)
 {
-    // loops from position 0 to position 51
+    thePlayer.cardCount = 13;
     for(int i=0; i<13; i++)
     {
-        // calls display card function 52 times to display entire deck
        displayCard(thePile.playedCards[i]);
     }
+    cout << thePlayer.name << " ";
+    cout << thePlayer.cardCount << " cards";
+    cout << endl << endl << endl;
+    thePlayer.name = "Computer_1";
+    cout << thePlayer.name << " ";
+    cout << thePlayer.cardCount << " cards";
+    cout << endl << endl << endl;
+    thePlayer.name = "Computer_2";
+    cout << thePlayer.name << " ";
+    cout << thePlayer.cardCount << " cards";
+    cout << endl << endl << endl;
+    thePlayer.name = "Computer_3";
+    cout << thePlayer.name << " ";
+    cout << thePlayer.cardCount << " cards";
+    cout << endl;
+    return thePlayer;
 }
 
 // Creates each card in deck
@@ -246,9 +282,6 @@ Pile initializePile(Pile thePile)
         // pile starts empty at start of game
         clearCard(thePile.playedCards[i]);
     }
-
-    // first available position is furthermost, 51
-    thePile.position = 51;
     return thePile;
 }
 
@@ -265,12 +298,7 @@ Pile initializePile(Pile thePile)
 // displays a Player
 void displayPlayer(Player thePlayer)
 {
-    thePlayer.cardCount = 13;
     // displays the properties of a Player
-
-    cout << thePlayer.name << " ";
-    cout << thePlayer.cardCount << " cards";
-
     // displays user's hand
     for(int i=0; i<thePlayer.cardCount; i++)
     {
@@ -284,6 +312,25 @@ void displayPlayer(Player thePlayer)
     }
 }
 
+Player takeTurn (Player thePlayer, Pile thePile)
+{
+    while (thePlayer.cardCount > 0)
+    {
+        cout << "It's your turn. Indicate the position of the card you wish to play." << endl;
+        thePile.position = 0;
+        while ((thePile.position < 1) or (thePile.position > 13))
+        {
+            cin >> thePile.position;
+            if ((thePile.position < 1) or (thePile.position > 13))
+            {
+                cout << "Not a valid position. Please enter a different position."<<endl;
+            }
+        }
+        thePlayer.cardCount--;
+    }
+    return thePlayer;
+}
+
 int main()
 {
     Card card;
@@ -295,9 +342,12 @@ int main()
     pile = initializePile(pile);
     pile = initializeDeck(pile);
     pile = shuffleDeck(pile);
-    displayDeck(pile);
+    player = displayDeck(pile, player);
     //moveCard(card, pile);
     displayPlayer(player);
+    cout<< pile.position;
+    cout<<endl;
+    player = takeTurn(player, pile);
     cout<<endl;
     return 0;
 }
