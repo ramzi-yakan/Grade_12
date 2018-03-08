@@ -24,7 +24,8 @@ struct Player
 {
 
     Card hand[52];      // player's hand
-    string name;       // player's name
+    string name;        // player's name
+    string computerName;
     int cardCount;    // number of cards in hand
 
 };
@@ -62,60 +63,57 @@ struct Pile
 void displayCard(Card theCard)
 {
     // displays the properties of a Card
-
-    cout << "Value:" << " ";
+    cout << "Value: ";
     if (theCard.value == 1)
     {
         theCard.stringValue = "A";
-        cout << theCard.stringValue << " " << endl;
+        cout << theCard.stringValue << endl;
     }
     else if (theCard.value == 11)
     {
         theCard.stringValue = "J";
-        cout << theCard.stringValue << " " << endl;
+        cout << theCard.stringValue << endl;
     }
     else if (theCard.value == 12)
     {
         theCard.stringValue = "Q";
-        cout << theCard.stringValue << " " << endl;
+        cout << theCard.stringValue << endl;
     }
     else if (theCard.value == 13)
     {
         theCard.stringValue = "K";
-        cout << theCard.stringValue << " " << endl;
+        cout << theCard.stringValue << endl;
     }
     else
     {
-        cout << theCard.value << " " << endl;
+        cout << theCard.value << endl;
     }
-    cout << "Suit:" << " ";
-    cout << theCard.suit << " " << endl;
-    cout << "Rank:" << " ";
-    cout << theCard.Rank << " " << endl;
+    cout << "Suit: ";
+    cout << theCard.suit << endl;
     cout << endl;
 }
 
 // displays the deck
 Player displayDeck(Pile thePile, Player thePlayer)
 {
-    thePlayer.cardCount = 13;
-    for(int i=0; i<13; i++)
+    for(int i=0; i < thePlayer.cardCount; i++)
     {
+       cout << "Card " << i+1 << endl;
        displayCard(thePile.playedCards[i]);
     }
     cout << thePlayer.name << " ";
     cout << thePlayer.cardCount << " cards";
     cout << endl << endl << endl;
-    thePlayer.name = "Computer_1";
-    cout << thePlayer.name << " ";
+    thePlayer.computerName = "Computer_1";
+    cout << thePlayer.computerName << " ";
     cout << thePlayer.cardCount << " cards";
     cout << endl << endl << endl;
-    thePlayer.name = "Computer_2";
-    cout << thePlayer.name << " ";
+    thePlayer.computerName = "Computer_2";
+    cout << thePlayer.computerName << " ";
     cout << thePlayer.cardCount << " cards";
     cout << endl << endl << endl;
-    thePlayer.name = "Computer_3";
-    cout << thePlayer.name << " ";
+    thePlayer.computerName = "Computer_3";
+    cout << thePlayer.computerName << " ";
     cout << thePlayer.cardCount << " cards";
     cout << endl;
     return thePlayer;
@@ -303,11 +301,10 @@ void displayPlayer(Player thePlayer)
     for(int i=0; i<thePlayer.cardCount; i++)
     {
         // checks if card is played
-        if(thePlayer.hand[i].value != 0)
-        {
+
             // displays available not played cards
             displayCard(thePlayer.hand[i]);
-        }
+
 
     }
 }
@@ -316,17 +313,22 @@ Player takeTurn (Player thePlayer, Pile thePile)
 {
     while (thePlayer.cardCount > 0)
     {
-        cout << "It's your turn. Indicate the position of the card you wish to play." << endl;
+        cout << "It's your turn. Indicate the card you wish to play." << endl;
         thePile.position = 0;
-        while ((thePile.position < 1) or (thePile.position > 13))
+        while ((thePile.position < 1) or (thePile.position > thePlayer.cardCount))
         {
             cin >> thePile.position;
-            if ((thePile.position < 1) or (thePile.position > 13))
+            if ((thePile.position < 1) or (thePile.position > thePlayer.cardCount))
             {
                 cout << "Not a valid position. Please enter a different position."<<endl;
             }
         }
+        for (int i = thePlayer.cardCount; i > thePile.position; i--)
+        {
+            thePlayer.hand[i-1] = thePlayer.hand[i];
+        }
         thePlayer.cardCount--;
+        thePlayer = displayDeck(thePile, thePlayer);
     }
     return thePlayer;
 }
@@ -336,6 +338,7 @@ int main()
     Card card;
     Player player;
     Pile pile;
+    player.cardCount = 13;
     cout << "Please enter your name." << endl;
     cin >> player.name;
     cout << endl;
@@ -344,8 +347,7 @@ int main()
     pile = shuffleDeck(pile);
     player = displayDeck(pile, player);
     //moveCard(card, pile);
-    displayPlayer(player);
-    cout<< pile.position;
+    //cout<< pile.position;
     cout<<endl;
     player = takeTurn(player, pile);
     cout<<endl;
