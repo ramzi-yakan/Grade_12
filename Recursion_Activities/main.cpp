@@ -4,16 +4,11 @@
 
 using namespace std;
 
-void factorialCalculator ()
+int factorialCalculator (int n)
 {
-    int factorialProduct = 1;
-    for (int n = 1; n <= 10; n++)
+    if (n = 0)
     {
-        for (int i = 1; i < n; i++)
-        {
-            factorialProduct = factorialProduct*factorialProduct-1;
-            cout << n << "!: " << factorialProduct << endl;
-        }
+
     }
 }
 
@@ -27,9 +22,27 @@ void squareNumberCalculator ()
 
 }
 
-void keyboardInputReverse ()
+void getTextLength (int length)
 {
+    string buffer;
+    while (length < 1)
+        {
+            cout << "Please enter a text length." << endl;
+            getline(cin, buffer);
+            stringstream(buffer) >> length;
+            if (length < 1)
+            {
+                cout << "Please enter a valid text length." << endl << endl;
+            }
+        }
+}
 
+void keyboardInputReverse (int length)
+{
+    char letter;
+    cin.get(letter);
+    keyboardInputReverse(length);
+    cout.put(letter);
 }
 
 void primeNumberCalculator ()
@@ -41,6 +54,8 @@ void selectProgram ()
 {
     string buffer;
     int option = 0;
+    int n;
+    int textLength = 0;
     while ((option < 1) or (option > 6))
     {
         cout << "Please select a program:" << endl;
@@ -55,7 +70,7 @@ void selectProgram ()
         switch (option)
         {
             case 1:
-                factorialCalculator();
+                factorialCalculator(n);
                 break;
             case 2:
                 fibonacciCalculator();
@@ -64,7 +79,8 @@ void selectProgram ()
                 squareNumberCalculator();
                 break;
             case 4:
-                keyboardInputReverse();
+                getTextLength(textLength);
+                keyboardInputReverse(textLength);
                 break;
             case 5:
                 primeNumberCalculator();
