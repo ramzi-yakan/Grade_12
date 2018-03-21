@@ -6,8 +6,15 @@ using namespace std;
 
 void factorialCalculator ()
 {
-    int factorialSum = 1;
-    cout << "1!= " << factorialSum << endl;
+    int factorialProduct = 1;
+    for (int n = 1; n <= 10; n++)
+    {
+        for (int i = 1; i < n; i++)
+        {
+            factorialProduct = factorialProduct*factorialProduct-1;
+            cout << n << "!: " << factorialProduct << endl;
+        }
+    }
 }
 
 void fibonacciCalculator ()
