@@ -17,44 +17,68 @@ void fibonacciCalculator ()
 
 }
 
-void squareNumberCalculator ()
+int squareNumberCalculator (int n)
 {
-
+    int previousAnswer;
+    previousAnswer = squareNumberCalculator(n-1);
+    int tempAnswer;
+    tempAnswer = previousAnswer+2(n-1)-1;
+    int answer = tempAnswer;
+    return answer;
 }
 
 void getTextLength (int length)
 {
     string buffer;
     while (length < 1)
+    {
+        cout << "Please enter a text length." << endl;
+        getline(cin, buffer);
+        stringstream(buffer) >> length;
+        if (length < 1)
         {
-            cout << "Please enter a text length." << endl;
-            getline(cin, buffer);
-            stringstream(buffer) >> length;
-            if (length < 1)
-            {
-                cout << "Please enter a valid text length." << endl << endl;
-            }
+            cout << "Please enter a valid text length." << endl << endl;
         }
+    }
 }
 
 void keyboardInputReverse (int length)
 {
     char letter;
+    //cout << "Enter your message." <<endl;
     cin.get(letter);
-    keyboardInputReverse(length);
     cout.put(letter);
+    keyboardInputReverse(length);
 }
 
-void primeNumberCalculator ()
+bool primeNumberCalculator (int n, int d)
 {
-
+    //cout << n << "/" << d << endl;
+    if (d == 1)
+    {
+        cout << endl;
+        cout << "Prime" << endl;
+        return true;
+    }
+    else if (n%d == 0)
+    {
+        cout << endl;
+        cout << "Not Prime" << endl;
+        return false;
+    }
+    else
+    {
+        primeNumberCalculator (n, d-1);
+    }
 }
 
 void selectProgram ()
 {
     string buffer;
     int option = 0;
-    int n;
+    int number;
+    int divisor;
+    int numberSquared;
     int textLength = 0;
     while ((option < 1) or (option > 6))
     {
@@ -70,20 +94,27 @@ void selectProgram ()
         switch (option)
         {
             case 1:
-                factorialCalculator(n);
+                factorialCalculator(number);
                 break;
             case 2:
                 fibonacciCalculator();
                 break;
             case 3:
-                squareNumberCalculator();
+                number = 1;
+                numberSquared = squareNumberCalculator(number);
                 break;
             case 4:
                 getTextLength(textLength);
                 keyboardInputReverse(textLength);
                 break;
             case 5:
-                primeNumberCalculator();
+                cout << endl;
+                cout << "Please enter a number." << endl;
+                getline(cin, buffer);
+                stringstream(buffer) >> number;
+                cout << endl;
+                divisor = number/2;
+                primeNumberCalculator(number, divisor);
                 break;
             case 6:
                 break;
