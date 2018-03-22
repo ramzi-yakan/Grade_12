@@ -19,12 +19,12 @@ void fibonacciCalculator ()
 
 int squareNumberCalculator (int n)
 {
-    int previousAnswer;
+    /*int previousAnswer;
     previousAnswer = squareNumberCalculator(n-1);
     int tempAnswer;
     tempAnswer = previousAnswer+2(n-1)-1;
     int answer = tempAnswer;
-    return answer;
+    return answer;*/
 }
 
 void getTextLength (int length)
@@ -95,17 +95,21 @@ void selectProgram ()
         {
             case 1:
                 factorialCalculator(number);
+                selectProgram();
                 break;
             case 2:
                 fibonacciCalculator();
+                selectProgram();
                 break;
             case 3:
                 number = 1;
                 numberSquared = squareNumberCalculator(number);
+                selectProgram();
                 break;
             case 4:
                 getTextLength(textLength);
                 keyboardInputReverse(textLength);
+                selectProgram();
                 break;
             case 5:
                 cout << endl;
@@ -115,6 +119,8 @@ void selectProgram ()
                 cout << endl;
                 divisor = number/2;
                 primeNumberCalculator(number, divisor);
+                cout << endl << endl << endl;
+                selectProgram();
                 break;
             case 6:
                 break;
