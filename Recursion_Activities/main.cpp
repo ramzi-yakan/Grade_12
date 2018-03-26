@@ -30,9 +30,9 @@ int squareNumberCalculator (int n)
 void getTextLength (int length)
 {
     string buffer;
+    cout << "Please enter a text length." << endl;
     while (length < 1)
     {
-        cout << "Please enter a text length." << endl;
         getline(cin, buffer);
         stringstream(buffer) >> length;
         if (length < 1)
