@@ -23,6 +23,7 @@ struct Card
 // properties of a Player
 struct Player
 {
+
     Card hand[52];      // player's hand
     string name;        // player's name
     int cardCount;    // number of cards in hand
@@ -34,8 +35,6 @@ struct Player
     int computer1Points;
     int computer2Points;
     int computer3Points;
-    string leadingSuit;
-    string winnerOfTrick;
 };
 
 // properties of a pile
@@ -557,20 +556,15 @@ Player takePlayerTurn (Player thePlayer, Pile thePile)
         cout << endl << endl << endl;
         cout << "It's your turn. Indicate the card you wish to play." << endl;
         thePile.position = 0;
-        while ((thePile.position < 1) or (thePile.position > thePlayer.cardCount) or (thePile.playedCards[thePile.position-1].suit != thePlayer.leadingSuit))
+        while ((thePile.position < 1) or (thePile.position > thePlayer.cardCount))
         {
             cin >> thePile.position;
-            if ((thePile.position < 1) or (thePile.position > thePlayer.cardCount)
+            if ((thePile.position < 1) or (thePile.position > thePlayer.cardCount))
             {
                 cout << "Not a valid position. Please enter a different position." << endl;
             }
-            else if (thePile.playedCards[thePile.position-1].suit != thePlayer.leadingSuit))
-            {
-                cout << "Card suit doesn't match leading suit. Please enter a different position." << endl;
-            }
         }
         thePlayer = takeComputersTurn(thePlayer, thePile);
-        thePlayer = determineWinner(thePlayer, thePile);
         thePlayer.cardCount--;
         thePlayer = displayDeck(thePile, thePlayer);
     }
@@ -628,7 +622,6 @@ int main()
         player.computer1Points = 0;
         player.computer2Points = 0;
         player.computer3Points = 0;
-        player.winnerOfTrick = player.name;
         pile = initializePile(pile);
         pile = initializeDeck(pile);
         pile = shuffleDeck(pile);
