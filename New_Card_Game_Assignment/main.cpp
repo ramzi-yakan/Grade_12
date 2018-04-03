@@ -329,7 +329,7 @@ Pile initializeDeck(Pile thePile)
 }
 
 // shuffles a deck of cards
-Pile shuffleDeck(Pile thePile)
+void shuffleDeck(Pile& thePile)
 {
     srand(time(NULL));
     // loops from position 51 to 1
@@ -348,7 +348,7 @@ Pile shuffleDeck(Pile thePile)
         thePile.playedCards[r] = atMax;
         thePile.playedCards[i] = atRandom;
     }
-    return thePile;
+    return;
 }
 
 // deletes a card
@@ -607,7 +607,7 @@ int main()
         player.computer3Points = 0;
         pile = initializePile(pile);
         pile = initializeDeck(pile);
-        pile = shuffleDeck(pile);
+        shuffleDeck(pile);
         pile = sortHand(pile);
         player = displayDeck(pile, player);
         cout << endl;
