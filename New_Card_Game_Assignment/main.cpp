@@ -12,19 +12,17 @@ using std::string;
 // properties of a Card
 struct Card
 {
-
     string suit;    // card's suit
     int Rank;    // card's ranking
     int value;   // card's numeric value
     int suitValue;
     string stringValue;
+    bool cardPlayed;
 };
 
 // properties of a Player
 struct Player
 {
-
-    Card hand[52];      // player's hand
     string name;        // player's name
     int cardCount;    // number of cards in hand
     int userHearts;
@@ -42,7 +40,6 @@ struct Pile
 {
     Card playedCards[52];  // array of already played/discarded cards
     int position;         // position in array
-
 };
 
 Pile sortHand(Pile thePile)
@@ -377,22 +374,6 @@ Pile initializePile(Pile thePile)
     return thePile;
 }
 
-// displays a Player
-void displayPlayer(Player thePlayer)
-{
-    // displays the properties of a Player
-    // displays user's hand
-    for(int i=0; i<thePlayer.cardCount; i++)
-    {
-        // checks if card is played
-
-            // displays available not played cards
-            displayCard(thePlayer.hand[i]);
-
-
-    }
-}
-
 Player takeComputersTurn(Player thePlayer, Pile thePile)
 {
     cout << endl;
@@ -566,6 +547,7 @@ Player takePlayerTurn (Player thePlayer, Pile thePile)
         }
         thePlayer = takeComputersTurn(thePlayer, thePile);
         thePlayer.cardCount--;
+        thePile.playedCards[thePile.position].cardPlayed = true;
         thePlayer = displayDeck(thePile, thePlayer);
     }
     return thePlayer;
@@ -612,8 +594,9 @@ int main()
     cout << endl << endl;
     while (game == "y")
     {
-        player.cardCount = 13;
+        card.cardPlayed = false;
         pile.position = 14;
+        player.cardCount = 13;
         player.userHearts = 0;
         player.computer1Hearts = 0;
         player.computer2Hearts = 0;
