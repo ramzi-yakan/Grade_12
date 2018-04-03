@@ -127,7 +127,7 @@ Pile sortHand(Pile thePile)
 }
 
 // display one card
-void displayCard(Card theCard)
+void displayCard(const Card& theCard)
 {
     // displays the properties of a Card
     cout << "Value: ";
