@@ -131,7 +131,7 @@ Pile sortHand(Pile thePile)
 void displayCard(Card theCard, Pile thePile)
 {
     // displays the properties of a Card
-    for(int i = 0; i < 13; i++)
+    for(int i = 0; i < 52; i++)
     {
         if (thePile.playedCards[i].cardPlayed == false)
         {
@@ -355,7 +355,7 @@ Pile initializePile(Pile thePile)
     return thePile;
 }
 
-Player takeComputersTurn(Player thePlayer, Pile thePile)
+Player checkWinnerOfTrick(Player thePlayer, Pile thePile)
 {
     cout << endl;
     if ((thePile.playedCards[13-thePlayer.cardCount].Rank > thePile.playedCards[13+(13-thePlayer.cardCount)].Rank) and (thePile.playedCards[13-thePlayer.cardCount].Rank > thePile.playedCards[26+(13-thePlayer.cardCount)].Rank) and (thePile.playedCards[13-thePlayer.cardCount].Rank > thePile.playedCards[39+(13-thePlayer.cardCount)].Rank))
@@ -380,7 +380,6 @@ Player takeComputersTurn(Player thePlayer, Pile thePile)
                 thePlayer.userPoints++;
             }
             cout << "Uh oh! You have picked up some hearts. You now have " << thePlayer.userPoints << " points." << endl;
-            cout << "You now have " << thePlayer.userHearts << " hearts." << endl;
         }
         if (((thePile.playedCards[13-thePlayer.cardCount].value == 12) and (thePile.playedCards[13-thePlayer.cardCount].suit == "Spades")) or ((thePile.playedCards[13+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[26+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[39+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Spades")))
         {
@@ -495,6 +494,22 @@ Player takeComputersTurn(Player thePlayer, Pile thePile)
     return thePlayer;
 }
 
+bool takeComputerTurn (Card theCard, Player thePlayer, Pile thePile, string _winner)
+{
+    if (_winner == "Computer_1")
+    {
+
+    }
+    else if (_winner == "Computer_2")
+    {
+
+    }
+    else
+    {
+
+    }
+}
+
 Player takePlayerTurn (Card theCard, Player thePlayer, Pile thePile)
 {
     while (thePlayer.cardCount > 0)
@@ -510,13 +525,44 @@ Player takePlayerTurn (Card theCard, Player thePlayer, Pile thePile)
                 cout << "Not a valid position. Please enter a different position." << endl;
             }
         }
-        thePlayer = takeComputersTurn(thePlayer, thePile);
+        thePlayer = checkWinnerOfTrick(thePlayer, thePile);
         thePlayer.cardCount--;
         thePile.playedCards[thePile.position-1].cardPlayed = true;
         displayCard(theCard, thePile);
         thePlayer = displayDeck(thePile, thePlayer);
     }
     return thePlayer;
+}
+
+void whoGoesFirst (Pile thePile, Player thePlayer, Card theCard)
+{
+    string winner = "N/A";
+    for (int i = 0; i < 52; i++)
+    {
+        if ((thePile.playedCards[i].value == 2) and (thePile.playedCards[i].suit == "Cloves"))
+        {
+            if ((i >= 0) and (i < 13))
+            {
+                cout << "You start." << endl;
+            }
+            else if ((i >= 13) and (i < 26))
+            {
+                cout << "Computer_1 starts." << endl;
+                winner = "Computer_1";
+            }
+            else if ((i >= 26) and (i < 39))
+            {
+                cout << "Computer_2 starts." << endl;
+                winner = "Computer_2";
+            }
+            else if ((i >= 39) and (i < 52))
+            {
+                cout << "Computer_3 starts." << endl;
+                winner = "Computer_3";
+            }
+        }
+    }
+    takeComputerTurn(theCard, thePlayer, thePile, winner);
 }
 
 void endOfGameStats (Player thePlayer, string _game)
@@ -577,7 +623,7 @@ int main()
         displayCard(card, pile);
         player = displayDeck(pile, player);
         cout << endl;
-        player = takePlayerTurn(card, player, pile);
+        whoGoesFirst(pile, player, card);
         cout << endl;
         endOfGameStats(player, game);
         cout << endl << endl << endl;
