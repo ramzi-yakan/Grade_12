@@ -12,163 +12,159 @@ using std::string;
 // properties of a Card
 struct Card
 {
-    string suit;    // card's suit
-    int Rank;    // card's ranking
-    int value;   // card's numeric value
-    int suitValue;
-    string stringValue;
-    bool cardPlayed;
+    string suit;            // card's suit
+    int suitValue;          // dummy variable used for sorting purposes
+    int Rank;               // card's ranking
+    int value;              // card's value (for card values 2-10)
+    string stringValue;     // card's value (for card values A, J, Q, K)
+    bool cardPlayed;        // checks if a particular card has been played
 };
 
 // properties of a Player
 struct Player
 {
-    string name;        // player's name
-    int cardCount;    // number of cards in hand
-    int userHearts;
-    int computer1Hearts;
-    int computer2Hearts;
-    int computer3Hearts;
-    int userPoints;
-    int computer1Points;
-    int computer2Points;
-    int computer3Points;
+    string name;            // user's name
+    int cardCount;          // number of cards in each player's hand
+    int userHearts;         // amount of hearts the user has picked up
+    int userPoints;         // number of points the user has recieved as a result of picking up hearts and/or the queen of spades
+    int computer1Points;    // number of points Computer_1 has recieved as a result of picking up hearts and/or the queen of spades
+    int computer2Points;    // number of points Computer_2 has recieved as a result of picking up hearts and/or the queen of spades
+    int computer3Points;    // number of points Computer_3 has recieved as a result of picking up hearts and/or the queen of spades
 };
 
 // properties of a pile
 struct Pile
 {
-    Card playedCards[52];  // array of already played/discarded cards
-    int position;         // position in array
+    Card deck[52];          // array of the deck of 52 cards
+    int position;           // position of a particular card in the deck
+    int randomPositionComputer1;
+    int randomPositionComputer2;
+    int randomPositionComputer3;
+    string leadingSuit;     // leading suit of a trick
+    int numberOfLeadingSuit;
 };
 
 Pile sortHand(Pile thePile)
 {
     Card buffer;
-    int i = 0;
-    while (i < 13)
+    for (int i = 0; i < 13; i++)
     {
-            if (thePile.playedCards[i].suit == "Hearts")
+            if (thePile.deck[i].suit == "Cloves")
             {
-                thePile.playedCards[i].suitValue = 3;
+                thePile.deck[i].suitValue = 3;
             }
-            else if (thePile.playedCards[i].suit == "Diamonds")
+            else if (thePile.deck[i].suit == "Spades")
             {
-                thePile.playedCards[i].suitValue = 4;
+                thePile.deck[i].suitValue = 4;
             }
-            else if (thePile.playedCards[i].suit == "Cloves")
+            else if (thePile.deck[i].suit == "Diamonds")
             {
-                thePile.playedCards[i].suitValue = 5;
+                thePile.deck[i].suitValue = 5;
             }
             else
             {
-                thePile.playedCards[i].suitValue = 6;
+                thePile.deck[i].suitValue = 6;
             }
             for (int j = i-1; j >= 0; j--)
             {
-                if (thePile.playedCards[j+1].suitValue > thePile.playedCards[j].suitValue)
+                if (thePile.deck[j+1].suitValue > thePile.deck[j].suitValue)
                 {
-                    buffer = thePile.playedCards[j+1];
-                    thePile.playedCards[j+1] = thePile.playedCards[j];
-                    thePile.playedCards[j] = buffer;
+                    buffer = thePile.deck[j+1];
+                    thePile.deck[j+1] = thePile.deck[j];
+                    thePile.deck[j] = buffer;
                 }
-                if (thePile.playedCards[j+1].suit == thePile.playedCards[j].suit)
+                if (thePile.deck[j+1].suit == thePile.deck[j].suit)
                 {
-                    if (thePile.playedCards[j+1].Rank < thePile.playedCards[j].Rank)
+                    if (thePile.deck[j+1].Rank < thePile.deck[j].Rank)
                     {
-                        buffer = thePile.playedCards[j+1];
-                        thePile.playedCards[j+1] = thePile.playedCards[j];
-                        thePile.playedCards[j] = buffer;
+                        buffer = thePile.deck[j+1];
+                        thePile.deck[j+1] = thePile.deck[j];
+                        thePile.deck[j] = buffer;
                     }
                 }
             }
-            thePile.playedCards[i].cardPlayed = false;
-            i++;
+            thePile.deck[i].cardPlayed = false;
     }
-    while (i < 26)
+    for (int i = 13; i < 26; i++)
     {
             for (int j = i-1; j >= 13; j--)
             {
-                if (thePile.playedCards[j+1].Rank < thePile.playedCards[j].Rank)
+                if (thePile.deck[j+1].Rank < thePile.deck[j].Rank)
                 {
-                    buffer = thePile.playedCards[j+1];
-                    thePile.playedCards[j+1] = thePile.playedCards[j];
-                    thePile.playedCards[j] = buffer;
+                    buffer = thePile.deck[j+1];
+                    thePile.deck[j+1] = thePile.deck[j];
+                    thePile.deck[j] = buffer;
                 }
             }
-            i++;
     }
-    while (i < 39)
+    for (int i = 26; i < 39; i++)
     {
             for (int j = i-1; j >= 26; j--)
             {
-                if (thePile.playedCards[j+1].Rank < thePile.playedCards[j].Rank)
+                if (thePile.deck[j+1].Rank < thePile.deck[j].Rank)
                 {
-                    buffer = thePile.playedCards[j+1];
-                    thePile.playedCards[j+1] = thePile.playedCards[j];
-                    thePile.playedCards[j] = buffer;
+                    buffer = thePile.deck[j+1];
+                    thePile.deck[j+1] = thePile.deck[j];
+                    thePile.deck[j] = buffer;
                 }
             }
-            i++;
     }
-    while (i < 52)
+    for (int i = 39; i < 52; i++)
     {
             for (int j = i-1; j >= 39; j--)
             {
-                if (thePile.playedCards[j+1].Rank < thePile.playedCards[j].Rank)
+                if (thePile.deck[j+1].Rank < thePile.deck[j].Rank)
                 {
-                    buffer = thePile.playedCards[j+1];
-                    thePile.playedCards[j+1] = thePile.playedCards[j];
-                    thePile.playedCards[j] = buffer;
+                    buffer = thePile.deck[j+1];
+                    thePile.deck[j+1] = thePile.deck[j];
+                    thePile.deck[j] = buffer;
                 }
             }
-            i++;
     }
     return thePile;
 }
 
-// display one card
+// displays the user's hand of 13 cards, along with each card's important properties
 void displayCard(Card theCard, Pile thePile)
 {
-    // displays the properties of a Card
-    for(int i = 0; i < 52; i++)
+    for(int i = 0; i < 13; i++)
     {
-        if (thePile.playedCards[i].cardPlayed == false)
+        if (thePile.deck[i].cardPlayed == false)
         {
             cout << "Card " << i+1 << endl;
             cout << "Value: ";
-            if (thePile.playedCards[i].value == 1)
+            if (thePile.deck[i].value == 1)
             {
-                thePile.playedCards[i].stringValue = "A";
-                cout << thePile.playedCards[i].stringValue << endl;
+                thePile.deck[i].stringValue = "A";
+                cout << thePile.deck[i].stringValue << endl;
             }
-            else if (thePile.playedCards[i].value == 11)
+            else if (thePile.deck[i].value == 11)
             {
-                thePile.playedCards[i].stringValue = "J";
-                cout << thePile.playedCards[i].stringValue << endl;
+                thePile.deck[i].stringValue = "J";
+                cout << thePile.deck[i].stringValue << endl;
             }
-            else if (thePile.playedCards[i].value == 12)
+            else if (thePile.deck[i].value == 12)
             {
-                thePile.playedCards[i].stringValue = "Q";
-                cout << thePile.playedCards[i].stringValue << endl;
+                thePile.deck[i].stringValue = "Q";
+                cout << thePile.deck[i].stringValue << endl;
             }
-            else if (thePile.playedCards[i].value == 13)
+            else if (thePile.deck[i].value == 13)
             {
-                thePile.playedCards[i].stringValue = "K";
-                cout << thePile.playedCards[i].stringValue << endl;
+                thePile.deck[i].stringValue = "K";
+                cout << thePile.deck[i].stringValue << endl;
             }
             else
             {
-                cout << thePile.playedCards[i].value << endl;
+                cout << thePile.deck[i].value << endl;
             }
             cout << "Suit: ";
-            cout << thePile.playedCards[i].suit << endl;
+            cout << thePile.deck[i].suit << endl;
             cout << endl;
         }
     }
 }
 
-// displays the deck
+// displays the amount of cards each player has remaining in their hand
 Player displayDeck(Pile thePile, Player thePlayer)
 {
     if (thePlayer.cardCount != 0)
@@ -188,200 +184,230 @@ Player displayDeck(Pile thePile, Player thePlayer)
     }
     else
     {
-        cout << "End of game.";
+        cout << "End of game.";         // game ends once all players are out of cards
     }
     return thePlayer;
 }
 
-// Creates each card in deck
+// creates each card in the deck
 Pile initializeDeck(Pile thePile)
 {
-        // loops from position 0 to position 9
-        // initializes all card's of Diamond suit
+    // initializes all cards of suit Cloves
+    for(int i=1; i<10; i++)
+    {
+        // initializes card's value
+        thePile.deck[i].value = i+1;
 
-        for(int i=1; i<10; i++)
-        {
-              // initializes card's value
-             thePile.playedCards[i].value = i+1;
+        // initializes card's suit
+        thePile.deck[i].suit = "Cloves";
 
-             // initializes card's suit
-             thePile.playedCards[i].suit = "Diamonds";
-             thePile.playedCards[i].Rank = i;
+        // initializes card's rank
+        thePile.deck[i].Rank = i;
+    }
+    // some properties need to be implemented manually
+    thePile.deck[0].value = 1;
+    thePile.deck[0].Rank = 13;
+    thePile.deck[0].suit = "Cloves";
+    thePile.deck[10].value = 11;
+    thePile.deck[10].Rank = 10;
+    thePile.deck[10].suit = "Cloves";
+    thePile.deck[11].value = 12;
+    thePile.deck[11].Rank = 11;
+    thePile.deck[11].suit = "Cloves";
+    thePile.deck[12].value = 13;
+    thePile.deck[12].Rank = 12;
+    thePile.deck[12].suit = "Cloves";
 
-        }
-             // initializes the cards with a specific ranking
+    // initializes  cards of suit Spades
+    for(int i=14; i<23; i++)
+    {
+        thePile.deck[i].value = i-12;
+        thePile.deck[i].suit = "Spades";
+        thePile.deck[i].Rank = i-13;
+    }
+    thePile.deck[13].value = 1;
+    thePile.deck[13].Rank = 13;
+    thePile.deck[13].suit = "Spades";
+    thePile.deck[23].value = 11;
+    thePile.deck[23].Rank = 10;
+    thePile.deck[23].suit = "Spades";
+    thePile.deck[24].value = 12;
+    thePile.deck[24].Rank = 11;
+    thePile.deck[24].suit = "Spades";
+    thePile.deck[25].value = 13;
+    thePile.deck[25].Rank = 12;
+    thePile.deck[25].suit = "Spades";
 
-             thePile.playedCards[0].value = 1;
-             thePile.playedCards[0].Rank = 13;
-             thePile.playedCards[0].suit = "Diamonds";
-             thePile.playedCards[10].value = 11;
-             thePile.playedCards[10].Rank = 10;
-             thePile.playedCards[10].suit = "Diamonds";
-             thePile.playedCards[11].value = 12;
-             thePile.playedCards[11].Rank = 11;
-             thePile.playedCards[11].suit = "Diamonds";
-             thePile.playedCards[12].value = 13;
-             thePile.playedCards[12].Rank = 12;
-             thePile.playedCards[12].suit = "Diamonds";
+    // initializes  cards of suit Diamonds
+    for(int i=27; i<36; i++)
+    {
+        thePile.deck[i].value = i-25;
+        thePile.deck[i].suit = "Diamonds";
+        thePile.deck[i].Rank = i-26;
+    }
+    thePile.deck[26].value = 1;
+    thePile.deck[26].Rank = 13;
+    thePile.deck[26].suit = "Diamonds";
+    thePile.deck[36].value = 11;
+    thePile.deck[36].Rank = 10;
+    thePile.deck[36].suit = "Diamonds";
+    thePile.deck[37].value = 12;
+    thePile.deck[37].Rank = 11;
+    thePile.deck[37].suit = "Diamonds";
+    thePile.deck[38].value = 13;
+    thePile.deck[38].Rank = 12;
+    thePile.deck[38].suit = "Diamonds";
 
-
-         // loops from position 13 to position 22
-         // initializes  cards of suit Spades
-
-        for(int i=14; i<23; i++)
-        {
-            // initializes the card's value
-            thePile.playedCards[i].value = i-12;
-
-            // initializes the card's suit
-            thePile.playedCards[i].suit = "Spades";
-            thePile.playedCards[i].Rank = i-13;
-
-        }
-           //initializes the cards with specific ranking
-
-            thePile.playedCards[13].value = 1;
-            thePile.playedCards[13].Rank = 13;
-            thePile.playedCards[13].suit = "Spades";
-            thePile.playedCards[23].value = 11;
-            thePile.playedCards[23].Rank = 10;
-            thePile.playedCards[23].suit = "Spades";
-            thePile.playedCards[24].value = 12;
-            thePile.playedCards[24].Rank = 11;
-            thePile.playedCards[24].suit = "Spades";
-            thePile.playedCards[25].value = 13;
-            thePile.playedCards[25].Rank = 12;
-            thePile.playedCards[25].suit = "Spades";
-
-
-       // loops from position 26 to position 36
-
-       for(int i=27; i<36; i++)
-       {
-           // initializes the card value
-           thePile.playedCards[i].value = i-25;
-
-           // initializes the card suit
-           thePile.playedCards[i].suit = "Hearts";
-           thePile.playedCards[i].Rank = i-26;
-
-       }
-
-       // initializes cards with specific rankings
-
-           thePile.playedCards[26].value = 1;
-           thePile.playedCards[26].Rank = 13;
-           thePile.playedCards[26].suit = "Hearts";
-           thePile.playedCards[36].value = 11;
-           thePile.playedCards[36].Rank = 10;
-           thePile.playedCards[36].suit = "Hearts";
-           thePile.playedCards[37].value = 12;
-           thePile.playedCards[37].Rank = 11;
-           thePile.playedCards[37].suit = "Hearts";
-           thePile.playedCards[38].value = 13;
-           thePile.playedCards[38].Rank = 12;
-           thePile.playedCards[38].suit = "Hearts";
-        // loops from position 39 to position 48
-
-        for(int i=40; i<49; i++)
-        {
-            // initializes card value
-            thePile.playedCards[i].value = i-38;
-
-            // initializes card suit
-            thePile.playedCards[i].suit = "Cloves";
-            thePile.playedCards[i].Rank = i-39;
-        }
-
-         // initializes cards with specific rankings
-
-            thePile.playedCards[39].value = 1;
-            thePile.playedCards[39].Rank = 13;
-            thePile.playedCards[39].suit = "Cloves";
-            thePile.playedCards[49].value = 11;
-            thePile.playedCards[49].Rank = 10;
-            thePile.playedCards[49].suit = "Cloves";
-            thePile.playedCards[50].value = 12;
-            thePile.playedCards[50].Rank = 11;
-            thePile.playedCards[50].suit = "Cloves";
-            thePile.playedCards[51].value = 13;
-            thePile.playedCards[51].Rank = 12;
-            thePile.playedCards[51].suit = "Cloves";
-            return thePile;
-
+    // initializes  cards of suit Hearts
+    for(int i=40; i<49; i++)
+    {
+        thePile.deck[i].value = i-38;
+        thePile.deck[i].suit = "Hearts";
+        thePile.deck[i].Rank = i-39;
+    }
+    thePile.deck[39].value = 1;
+    thePile.deck[39].Rank = 13;
+    thePile.deck[39].suit = "Hearts";
+    thePile.deck[49].value = 11;
+    thePile.deck[49].Rank = 10;
+    thePile.deck[49].suit = "Hearts";
+    thePile.deck[50].value = 12;
+    thePile.deck[50].Rank = 11;
+    thePile.deck[50].suit = "Hearts";
+    thePile.deck[51].value = 13;
+    thePile.deck[51].Rank = 12;
+    thePile.deck[51].suit = "Hearts";
+    return thePile;
 }
 
-// shuffles a deck of cards
+// shuffles the deck of cards
 Pile shuffleDeck(Pile thePile)
 {
-    srand(time(NULL));
-    // loops from position 51 to 1
+    // loops from deck position 51 to 1
     for(int i = 51; i > 0; i--)
     {
-        // finds a random position number between 0 and ith
+        // generates a random position number between 0 and i
         int r = rand() % i;
 
         // assigns position i as max position
-        Card atMax = thePile.playedCards[i];
+        Card atMax = thePile.deck[i];
 
-        // assigns position r as random position
-        Card atRandom = thePile.playedCards[r];
+        // assigns position r as the random position
+        Card atRandom = thePile.deck[r];
 
         // swaps max position and random position
-        thePile.playedCards[r] = atMax;
-        thePile.playedCards[i] = atRandom;
+        thePile.deck[r] = atMax;
+        thePile.deck[i] = atRandom;
     }
     return thePile;
 }
 
-// deletes a card
-void clearCard(Card theCard)
-{
-    // erases all properties of that card
-    theCard.value = 0;
-    theCard.suit = " ";
-    theCard.Rank = 0;
-}
-
-// initializes the pile
-Pile initializePile(Pile thePile)
-{
-    // loops from position 0 to 51
-    for(int i=0; i < 52; i++)
-    {
-        // pile starts empty at start of game
-        clearCard(thePile.playedCards[i]);
-    }
-    return thePile;
-}
-
-Player checkWinnerOfTrick(Player thePlayer, Pile thePile)
+Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
 {
     cout << endl;
-    if ((thePile.playedCards[13-thePlayer.cardCount].Rank > thePile.playedCards[13+(13-thePlayer.cardCount)].Rank) and (thePile.playedCards[13-thePlayer.cardCount].Rank > thePile.playedCards[26+(13-thePlayer.cardCount)].Rank) and (thePile.playedCards[13-thePlayer.cardCount].Rank > thePile.playedCards[39+(13-thePlayer.cardCount)].Rank))
+    thePile.numberOfLeadingSuit = 0;
+    if (_winner != "Computer_1")
     {
-        cout << "You take the pile." << endl;
-        if ((thePile.playedCards[13-thePlayer.cardCount].suit == "Hearts") or (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Hearts") or (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Hearts") or (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Hearts"))
+        for (int i = 13; i < 26; i++)
         {
-            if (thePile.playedCards[13-thePlayer.cardCount].suit == "Hearts")
+            if (thePile.deck[i].suit == thePile.leadingSuit)
+            {
+                thePile.numberOfLeadingSuit++;
+            }
+        }
+        if (thePile.numberOfLeadingSuit != 0)
+        {
+            while ((thePile.deck[thePile.randomPositionComputer1].suit == thePile.leadingSuit) and (thePile.deck[thePile.randomPositionComputer1].cardPlayed == true))
+            {
+                thePile.randomPositionComputer1 = (rand() % 13) + 13;
+            }
+        }
+        else
+        {
+            while (thePile.deck[thePile.randomPositionComputer1].cardPlayed == true)
+            {
+                thePile.randomPositionComputer1 = (rand() % 13) + 13;
+            }
+        }
+    }
+    thePile.numberOfLeadingSuit = 0;
+    if (_winner != "Computer_2")
+    {
+        for (int i = 26; i < 39; i++)
+        {
+            if (thePile.deck[i].suit == thePile.leadingSuit)
+            {
+                thePile.numberOfLeadingSuit++;
+            }
+        }
+        if (thePile.numberOfLeadingSuit != 0)
+        {
+            while ((thePile.deck[thePile.randomPositionComputer2].suit == thePile.leadingSuit) and (thePile.deck[thePile.randomPositionComputer2].cardPlayed == true))
+            {
+                thePile.randomPositionComputer2 = (rand() % 13) + 26;
+            }
+        }
+        else
+        {
+            while (thePile.deck[thePile.randomPositionComputer2].cardPlayed == true)
+            {
+                thePile.randomPositionComputer2 = (rand() % 13) + 26;
+            }
+        }
+    }
+    thePile.numberOfLeadingSuit = 0;
+    if (_winner != "Computer_3")
+    {
+        for (int i = 39; i < 52; i++)
+        {
+            if (thePile.deck[i].suit == thePile.leadingSuit)
+            {
+                thePile.numberOfLeadingSuit++;
+            }
+        }
+        if (thePile.numberOfLeadingSuit != 0)
+        {
+            while ((thePile.deck[thePile.randomPositionComputer3].suit == thePile.leadingSuit) and (thePile.deck[thePile.randomPositionComputer3].cardPlayed == true))
+            {
+                thePile.randomPositionComputer3 = (rand() % 13) + 39;
+            }
+        }
+        else
+        {
+            while (thePile.deck[thePile.randomPositionComputer3].cardPlayed == true)
+            {
+                thePile.randomPositionComputer3 = (rand() % 13) + 39;
+            }
+        }
+    }
+    thePile.deck[thePile.randomPositionComputer1].cardPlayed = true;
+    thePile.deck[thePile.randomPositionComputer2].cardPlayed = true;
+    thePile.deck[thePile.randomPositionComputer3].cardPlayed = true;
+    if ((thePile.deck[thePile.position].Rank > thePile.deck[thePile.randomPositionComputer1].Rank) and (thePile.deck[thePile.position].Rank > thePile.deck[thePile.randomPositionComputer2].Rank) and (thePile.deck[thePile.position].Rank > thePile.deck[thePile.randomPositionComputer3].Rank))
+    {
+        _winner = "Player";
+        cout << "You take the pile." << endl;
+        if ((thePile.deck[thePile.position].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
+        {
+            if (thePile.deck[thePile.position].suit == "Hearts")
             {
                 thePlayer.userPoints++;
             }
-            if (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts")
             {
                 thePlayer.userPoints++;
             }
-            if (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts")
             {
                 thePlayer.userPoints++;
             }
-            if (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts")
             {
                 thePlayer.userPoints++;
             }
             cout << "Uh oh! You have picked up some hearts. You now have " << thePlayer.userPoints << " points." << endl;
         }
-        if (((thePile.playedCards[13-thePlayer.cardCount].value == 12) and (thePile.playedCards[13-thePlayer.cardCount].suit == "Spades")) or ((thePile.playedCards[13+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[26+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[39+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Spades")))
+        if (((thePile.deck[thePile.position].value == 12) and (thePile.deck[thePile.position].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
         {
             thePlayer.userPoints = thePlayer.userPoints + 13;
             cout << "Oh dear!!! You have picked up the queen of spades. You now have " << thePlayer.userPoints << " points." << endl;
@@ -391,30 +417,31 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile)
             cout << "Congrats!!! You've just shot the moon and won the game!" <<endl;
         }
     }
-    else if ((thePile.playedCards[13+(13-thePlayer.cardCount)].Rank > thePile.playedCards[26+(13-thePlayer.cardCount)].Rank) and (thePile.playedCards[13+(13-thePlayer.cardCount)].Rank > thePile.playedCards[39+(13-thePlayer.cardCount)].Rank) and (thePile.playedCards[13+(13-thePlayer.cardCount)].Rank > thePile.playedCards[13-thePlayer.cardCount].Rank))
+    else if ((thePile.deck[thePile.randomPositionComputer1].Rank > thePile.deck[thePile.randomPositionComputer2].Rank) and (thePile.deck[thePile.randomPositionComputer1].Rank > thePile.deck[thePile.randomPositionComputer3].Rank) and (thePile.deck[thePile.randomPositionComputer1].Rank > thePile.deck[thePile.position].Rank))
     {
+        _winner = "Computer_1";
         cout << "Computer_1 takes the pile." << endl;
-        if ((thePile.playedCards[13-thePlayer.cardCount].suit == "Hearts") or (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Hearts") or (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Hearts") or (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Hearts"))
+        if ((thePile.deck[thePile.position].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
         {
-            if (thePile.playedCards[13-thePlayer.cardCount].suit == "Hearts")
+            if (thePile.deck[thePile.position].suit == "Hearts")
             {
                 thePlayer.computer1Points++;
             }
-            if (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts")
             {
                 thePlayer.computer1Points++;
             }
-            if (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts")
             {
                 thePlayer.computer1Points++;
             }
-            if (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts")
             {
                 thePlayer.computer1Points++;
             }
             cout << "Yes! Computer_1 has picked up some hearts. They now have " << thePlayer.computer1Points << " points." << endl;
         }
-        if (((thePile.playedCards[13-thePlayer.cardCount].value == 12) and (thePile.playedCards[13-thePlayer.cardCount].suit == "Spades")) or ((thePile.playedCards[13+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[26+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[39+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Spades")))
+        if (((thePile.deck[thePile.position].value == 12) and (thePile.deck[thePile.position].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
         {
             thePlayer.computer1Points = thePlayer.computer1Points + 13;
             cout << "Amazing!!! Computer_1 has picked up the queen of spades. They now have " << thePlayer.computer1Points << " points." << endl;
@@ -424,30 +451,31 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile)
             cout << "*sigh* Computer_1 has just shot the moon and won the game!" <<endl;
         }
     }
-    else if ((thePile.playedCards[26+(13-thePlayer.cardCount)].Rank > thePile.playedCards[39+(13-thePlayer.cardCount)].Rank) and (thePile.playedCards[26+(13-thePlayer.cardCount)].Rank > thePile.playedCards[13-thePlayer.cardCount].Rank) and (thePile.playedCards[26+(13-thePlayer.cardCount)].Rank > thePile.playedCards[13+(13-thePlayer.cardCount)].Rank))
+    else if ((thePile.deck[thePile.randomPositionComputer2].Rank > thePile.deck[thePile.randomPositionComputer3].Rank) and (thePile.deck[thePile.randomPositionComputer2].Rank > thePile.deck[thePile.position].Rank) and (thePile.deck[thePile.randomPositionComputer2].Rank > thePile.deck[thePile.randomPositionComputer1].Rank))
     {
+        _winner = "Computer_2";
         cout << "Computer_2 takes the pile." << endl;
-        if ((thePile.playedCards[13-thePlayer.cardCount].suit == "Hearts") or (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Hearts") or (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Hearts") or (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Hearts"))
+        if ((thePile.deck[thePile.position].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
         {
-            if (thePile.playedCards[13-thePlayer.cardCount].suit == "Hearts")
+            if (thePile.deck[thePile.position].suit == "Hearts")
             {
                 thePlayer.computer2Points++;
             }
-            if (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts")
             {
                 thePlayer.computer2Points++;
             }
-            if (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts")
             {
                 thePlayer.computer2Points++;
             }
-            if (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts")
             {
                 thePlayer.computer2Points++;
             }
             cout << "Yes! Computer_2 has picked up some hearts. They now have " << thePlayer.computer2Points << " points." << endl;
         }
-        if (((thePile.playedCards[13-thePlayer.cardCount].value == 12) and (thePile.playedCards[13-thePlayer.cardCount].suit == "Spades")) or ((thePile.playedCards[13+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[26+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[39+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Spades")))
+        if (((thePile.deck[thePile.position].value == 12) and (thePile.deck[thePile.position].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
         {
             thePlayer.computer2Points = thePlayer.computer2Points + 13;
             cout << "Amazing!!! Computer_2 has picked up the queen of spades. They now have " << thePlayer.computer2Points << " points." << endl;
@@ -459,28 +487,29 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile)
     }
     else
     {
+        _winner = "Computer_3";
         cout << "Computer_3 takes the pile." << endl;
-        if ((thePile.playedCards[13-thePlayer.cardCount].suit == "Hearts") or (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Hearts") or (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Hearts") or (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Hearts"))
+        if ((thePile.deck[thePile.position].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
         {
-            if (thePile.playedCards[13-thePlayer.cardCount].suit == "Hearts")
+            if (thePile.deck[thePile.position].suit == "Hearts")
             {
                 thePlayer.computer3Points++;
             }
-            if (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts")
             {
                 thePlayer.computer3Points++;
             }
-            if (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts")
             {
                 thePlayer.computer3Points++;
             }
-            if (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Hearts")
+            if (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts")
             {
                 thePlayer.computer3Points++;
             }
             cout << "Yes! Computer_3 has picked up some hearts. They now have " << thePlayer.computer3Points << " points." << endl;
         }
-        if (((thePile.playedCards[13-thePlayer.cardCount].value == 12) and (thePile.playedCards[13-thePlayer.cardCount].suit == "Spades")) or ((thePile.playedCards[13+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[13+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[26+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[26+(13-thePlayer.cardCount)].suit == "Spades")) or ((thePile.playedCards[39+(13-thePlayer.cardCount)].value == 12) and (thePile.playedCards[39+(13-thePlayer.cardCount)].suit == "Spades")))
+        if (((thePile.deck[thePile.position].value == 12) and (thePile.deck[thePile.position].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
         {
             thePlayer.computer3Points = thePlayer.computer3Points + 13;
             cout << "Amazing!!! Computer_3 has picked up the queen of spades. They now have " << thePlayer.computer3Points << " points." << endl;
@@ -494,77 +523,101 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile)
     return thePlayer;
 }
 
-bool takeComputerTurn (Card theCard, Player thePlayer, Pile thePile, string _winner)
-{
-    if (_winner == "Computer_1")
-    {
-
-    }
-    else if (_winner == "Computer_2")
-    {
-
-    }
-    else
-    {
-
-    }
-}
-
-Player takePlayerTurn (Card theCard, Player thePlayer, Pile thePile)
+Player takePlayerTurn (Card theCard, Player thePlayer, Pile thePile, string _winner)
 {
     while (thePlayer.cardCount > 0)
     {
+        displayCard(theCard, thePile);
+        thePlayer = displayDeck(thePile, thePlayer);
         cout << endl << endl << endl;
         cout << "It's your turn. Indicate the card you wish to play." << endl;
+        cout << "Leading Suit: " << thePile.leadingSuit << endl;
         thePile.position = 14;
-        while ((thePile.position < 1) or (thePile.position > 13) or (thePile.playedCards[thePile.position-1].cardPlayed == true))
+        while ((thePile.position < 1) or (thePile.position > 13) or (thePile.deck[thePile.position-1].cardPlayed == true) or (thePile.deck[thePile.position-1].suit != thePile.leadingSuit))
         {
             cin >> thePile.position;
-            if ((thePile.position < 1) or (thePile.position > 13) or (thePile.playedCards[thePile.position-1].cardPlayed == true))
+            if ((thePile.position < 1) or (thePile.position > 13) or (thePile.deck[thePile.position-1].cardPlayed == true) or (thePile.deck[thePile.position-1].suit != thePile.leadingSuit))
             {
                 cout << "Not a valid position. Please enter a different position." << endl;
             }
         }
-        thePlayer = checkWinnerOfTrick(thePlayer, thePile);
-        thePlayer.cardCount--;
-        thePile.playedCards[thePile.position-1].cardPlayed = true;
-        displayCard(theCard, thePile);
-        thePlayer = displayDeck(thePile, thePlayer);
+        thePile.position = thePile.position-1;
+        if (_winner == "Player")
+        {
+            thePile.leadingSuit = thePile.deck[thePile.position].suit;
+        }
+        thePlayer = checkWinnerOfTrick(thePlayer, thePile, _winner);
+        thePile.deck[thePile.position].cardPlayed = true;
     }
     return thePlayer;
 }
 
-void whoGoesFirst (Pile thePile, Player thePlayer, Card theCard)
+void whoGoesFirst (Card theCard, Pile thePile, Player thePlayer)
 {
-    string winner = "N/A";
-    for (int i = 0; i < 52; i++)
+    thePlayer.cardCount--;
+    string winner;
+    thePile.leadingSuit = "Cloves";
+    if (thePlayer.cardCount == 13)
     {
-        if ((thePile.playedCards[i].value == 2) and (thePile.playedCards[i].suit == "Cloves"))
+        for (int i = 0; i < 52; i++)
         {
-            if ((i >= 0) and (i < 13))
+            if ((thePile.deck[i].value == 2) and (thePile.deck[i].suit == "Cloves"))
             {
-                cout << "You start." << endl;
-            }
-            else if ((i >= 13) and (i < 26))
-            {
-                cout << "Computer_1 starts." << endl;
-                winner = "Computer_1";
-            }
-            else if ((i >= 26) and (i < 39))
-            {
-                cout << "Computer_2 starts." << endl;
-                winner = "Computer_2";
-            }
-            else if ((i >= 39) and (i < 52))
-            {
-                cout << "Computer_3 starts." << endl;
-                winner = "Computer_3";
+                if ((i >= 0) and (i < 13))
+                {
+                    thePile.deck[i].cardPlayed = true;
+                    thePile.position = i;
+                    cout << "You have the 2 of cloves. Your first turn was just completed for you." << endl;
+                    checkWinnerOfTrick(thePlayer, thePile, winner);
+                    whoGoesFirst(theCard, thePile, thePlayer);
+                }
+                else if ((i >= 13) and (i < 26))
+                {
+                    cout << "Computer_1 has the 2 of cloves. Computer_1 starts." << endl;
+                    thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                }
+                else if ((i >= 26) and (i < 39))
+                {
+                    cout << "Computer_2 has the 2 of cloves. Computer_2 starts." << endl;
+                    thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                }
+                else if ((i >= 39) and (i < 52))
+                {
+                    cout << "Computer_3 has the 2 of cloves. Computer_3 starts." << endl;
+                    thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                }
             }
         }
     }
-    takeComputerTurn(theCard, thePlayer, thePile, winner);
+    else
+    {
+        if (winner == "Player")
+        {
+            thePile.leadingSuit = "N/A";
+            thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+        }
+        else if (winner == "Computer_1")
+        {
+            thePile.randomPositionComputer1 = (rand() % 13) + 13;
+            thePile.leadingSuit = thePile.deck[thePile.randomPositionComputer1].suit;
+            thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+        }
+        else if (winner == "Computer_2")
+        {
+            thePile.randomPositionComputer2 = (rand() % 13) + 26;
+            thePile.leadingSuit = thePile.deck[thePile.randomPositionComputer2].suit;
+            thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+        }
+        else
+        {
+            thePile.randomPositionComputer3 = (rand() % 13) + 39;
+            thePile.leadingSuit = thePile.deck[thePile.randomPositionComputer3].suit;
+            thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+        }
+    }
 }
 
+// displays each player's final score, then displays a message based on who has the least amount of points
 void endOfGameStats (Player thePlayer, string _game)
 {
     cout << "Total Points:" << endl;
@@ -587,16 +640,17 @@ void endOfGameStats (Player thePlayer, string _game)
     }
     else if ((thePlayer.computer3Points < thePlayer.userPoints) and (thePlayer.computer3Points < thePlayer.computer1Points) and (thePlayer.computer1Points < thePlayer.computer2Points))
     {
-        cout << "Unlucky!!! Computer_1 has won the game!" << endl;
+        cout << "Unlucky!!! Computer_3 has won the game!" << endl;
     }
     else
     {
-        cout << "Huh... it's a draw!" << endl;
+        cout << "It's a draw!" << endl;
     }
 }
 
 int main()
 {
+    srand(time(NULL));
     string game = "y";
     Card card;
     Player player;
@@ -607,23 +661,17 @@ int main()
     while (game == "y")
     {
         pile.position = 14;
-        player.cardCount = 13;
+        player.cardCount = 14;
         player.userHearts = 0;
-        player.computer1Hearts = 0;
-        player.computer2Hearts = 0;
-        player.computer3Hearts = 0;
         player.userPoints = 0;
         player.computer1Points = 0;
         player.computer2Points = 0;
         player.computer3Points = 0;
-        pile = initializePile(pile);
         pile = initializeDeck(pile);
         pile = shuffleDeck(pile);
         pile = sortHand(pile);
-        displayCard(card, pile);
-        player = displayDeck(pile, player);
         cout << endl;
-        whoGoesFirst(pile, player, card);
+        whoGoesFirst(card, pile, player);
         cout << endl;
         endOfGameStats(player, game);
         cout << endl << endl << endl;
