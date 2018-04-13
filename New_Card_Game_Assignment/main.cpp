@@ -1,4 +1,7 @@
+//Ramzi Yakan
 //Card Game
+
+// Note: Code might break after the completion of your first turn.
 
 #include <iostream>
 #include <stdlib.h>
@@ -37,11 +40,11 @@ struct Pile
 {
     Card deck[52];          // array of the deck of 52 cards
     int position;           // position of a particular card in the deck
-    int randomPositionComputer1;
-    int randomPositionComputer2;
-    int randomPositionComputer3;
+    int randomPositionComputer1;    // generates a random position number between 13 and 26
+    int randomPositionComputer2;    // generates a random position number between 26 and 39
+    int randomPositionComputer3;    // generates a random position number between 39 and 52
     string leadingSuit;     // leading suit of a trick
-    int numberOfLeadingSuit;
+    int numberOfLeadingSuit;        // counts the number of cards a player has of the leading suit
 };
 
 Pile sortHand(Pile thePile)
