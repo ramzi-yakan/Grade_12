@@ -28,7 +28,6 @@ struct Player
 {
     string name;            // user's name
     int cardCount;          // number of cards in each player's hand
-    int userHearts;         // amount of hearts the user has picked up
     int userPoints;         // number of points the user has recieved as a result of picking up hearts and/or the queen of spades
     int computer1Points;    // number of points Computer_1 has recieved as a result of picking up hearts and/or the queen of spades
     int computer2Points;    // number of points Computer_2 has recieved as a result of picking up hearts and/or the queen of spades
@@ -54,19 +53,19 @@ Pile sortHand(Pile thePile)
     {
             if (thePile.deck[i].suit == "Cloves")
             {
-                thePile.deck[i].suitValue = 3;
+                thePile.deck[i].suitValue = 1;
             }
             else if (thePile.deck[i].suit == "Spades")
             {
-                thePile.deck[i].suitValue = 4;
+                thePile.deck[i].suitValue = 2;
             }
             else if (thePile.deck[i].suit == "Diamonds")
             {
-                thePile.deck[i].suitValue = 5;
+                thePile.deck[i].suitValue = 3;
             }
             else
             {
-                thePile.deck[i].suitValue = 6;
+                thePile.deck[i].suitValue = 4;
             }
             for (int j = i-1; j >= 0; j--)
             {
@@ -315,12 +314,19 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
         {
             if (thePile.deck[i].suit == thePile.leadingSuit)
             {
-                thePile.numberOfLeadingSuit++;
+                if (thePile.deck[i].cardPlayed == false)
+                {
+                    thePile.numberOfLeadingSuit++;
+                    if (thePile.numberOfLeadingSuit != 0)
+                    {
+                        break;
+                    }
+                }
             }
         }
         if (thePile.numberOfLeadingSuit != 0)
         {
-            while ((thePile.deck[thePile.randomPositionComputer1].suit == thePile.leadingSuit) and (thePile.deck[thePile.randomPositionComputer1].cardPlayed == true))
+            while ((thePile.deck[thePile.randomPositionComputer1].suit != thePile.leadingSuit) and (thePile.deck[thePile.randomPositionComputer1].cardPlayed == true))
             {
                 thePile.randomPositionComputer1 = (rand() % 13) + 13;
             }
@@ -340,12 +346,19 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
         {
             if (thePile.deck[i].suit == thePile.leadingSuit)
             {
-                thePile.numberOfLeadingSuit++;
+                if (thePile.deck[i].cardPlayed == false)
+                {
+                    thePile.numberOfLeadingSuit++;
+                    if (thePile.numberOfLeadingSuit != 0)
+                    {
+                        break;
+                    }
+                }
             }
         }
         if (thePile.numberOfLeadingSuit != 0)
         {
-            while ((thePile.deck[thePile.randomPositionComputer2].suit == thePile.leadingSuit) and (thePile.deck[thePile.randomPositionComputer2].cardPlayed == true))
+            while ((thePile.deck[thePile.randomPositionComputer2].suit != thePile.leadingSuit) and (thePile.deck[thePile.randomPositionComputer2].cardPlayed == true))
             {
                 thePile.randomPositionComputer2 = (rand() % 13) + 26;
             }
@@ -365,12 +378,19 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
         {
             if (thePile.deck[i].suit == thePile.leadingSuit)
             {
-                thePile.numberOfLeadingSuit++;
+                if (thePile.deck[i].cardPlayed == false)
+                {
+                    thePile.numberOfLeadingSuit++;
+                    if (thePile.numberOfLeadingSuit != 0)
+                    {
+                        break;
+                    }
+                }
             }
         }
         if (thePile.numberOfLeadingSuit != 0)
         {
-            while ((thePile.deck[thePile.randomPositionComputer3].suit == thePile.leadingSuit) and (thePile.deck[thePile.randomPositionComputer3].cardPlayed == true))
+            while ((thePile.deck[thePile.randomPositionComputer3].suit != thePile.leadingSuit) and (thePile.deck[thePile.randomPositionComputer3].cardPlayed == true))
             {
                 thePile.randomPositionComputer3 = (rand() % 13) + 39;
             }
@@ -536,12 +556,41 @@ Player takePlayerTurn (Card theCard, Player thePlayer, Pile thePile, string _win
         cout << "It's your turn. Indicate the card you wish to play." << endl;
         cout << "Leading Suit: " << thePile.leadingSuit << endl;
         thePile.position = 14;
-        while ((thePile.position < 1) or (thePile.position > 13) or (thePile.deck[thePile.position-1].cardPlayed == true) or (thePile.deck[thePile.position-1].suit != thePile.leadingSuit))
+        thePile.numberOfLeadingSuit = 0;
+        for (int i = 0; i < 13; i++)
         {
-            cin >> thePile.position;
-            if ((thePile.position < 1) or (thePile.position > 13) or (thePile.deck[thePile.position-1].cardPlayed == true) or (thePile.deck[thePile.position-1].suit != thePile.leadingSuit))
+            if (thePile.deck[i].cardPlayed == false)
             {
-                cout << "Not a valid position. Please enter a different position." << endl;
+                if (thePile.deck[i].suit == thePile.leadingSuit)
+                {
+                    thePile.numberOfLeadingSuit++;
+                    if (thePile.numberOfLeadingSuit != 0)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        if (thePile.numberOfLeadingSuit == 0)
+        {
+            while ((thePile.position < 1) or (thePile.position > 13) or (thePile.deck[thePile.position-1].cardPlayed == true))
+            {
+                cin >> thePile.position;
+                if ((thePile.position < 1) or (thePile.position > 13) or (thePile.deck[thePile.position-1].cardPlayed == true))
+                {
+                    cout << "Not a valid position. Please enter a different position." << endl;
+                }
+            }
+        }
+        else
+        {
+            while ((thePile.position < 1) or (thePile.position > 13) or (thePile.deck[thePile.position-1].cardPlayed == true) or (thePile.deck[thePile.position-1].suit != thePile.leadingSuit))
+            {
+                cin >> thePile.position;
+                if ((thePile.position < 1) or (thePile.position > 13) or (thePile.deck[thePile.position-1].cardPlayed == true) or (thePile.deck[thePile.position-1].suit != thePile.leadingSuit))
+                {
+                    cout << "Not a valid position. Please enter a different position." << endl;
+                }
             }
         }
         thePile.position = thePile.position-1;
@@ -557,11 +606,11 @@ Player takePlayerTurn (Card theCard, Player thePlayer, Pile thePile, string _win
 
 void whoGoesFirst (Card theCard, Pile thePile, Player thePlayer)
 {
-    thePlayer.cardCount--;
+    //thePlayer.cardCount--;
     string winner;
-    thePile.leadingSuit = "Cloves";
     if (thePlayer.cardCount == 13)
     {
+        thePile.leadingSuit = "Cloves";
         for (int i = 0; i < 52; i++)
         {
             if ((thePile.deck[i].value == 2) and (thePile.deck[i].suit == "Cloves"))
@@ -571,23 +620,29 @@ void whoGoesFirst (Card theCard, Pile thePile, Player thePlayer)
                     thePile.deck[i].cardPlayed = true;
                     thePile.position = i;
                     cout << "You have the 2 of cloves. Your first turn was just completed for you." << endl;
-                    checkWinnerOfTrick(thePlayer, thePile, winner);
+                    thePlayer = checkWinnerOfTrick(thePlayer, thePile, winner);
                     whoGoesFirst(theCard, thePile, thePlayer);
                 }
                 else if ((i >= 13) and (i < 26))
                 {
                     cout << "Computer_1 has the 2 of cloves. Computer_1 starts." << endl;
                     thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                    thePlayer.cardCount--;
+                    whoGoesFirst(theCard, thePile, thePlayer);
                 }
                 else if ((i >= 26) and (i < 39))
                 {
                     cout << "Computer_2 has the 2 of cloves. Computer_2 starts." << endl;
                     thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                    thePlayer.cardCount--;
+                    whoGoesFirst(theCard, thePile, thePlayer);
                 }
                 else if ((i >= 39) and (i < 52))
                 {
                     cout << "Computer_3 has the 2 of cloves. Computer_3 starts." << endl;
                     thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                    thePlayer.cardCount--;
+                    whoGoesFirst(theCard, thePile, thePlayer);
                 }
             }
         }
@@ -664,8 +719,7 @@ int main()
     while (game == "y")
     {
         pile.position = 14;
-        player.cardCount = 14;
-        player.userHearts = 0;
+        player.cardCount = 13;
         player.userPoints = 0;
         player.computer1Points = 0;
         player.computer2Points = 0;
@@ -696,4 +750,3 @@ int main()
     }
     return 0;
 }
-
