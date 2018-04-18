@@ -17,16 +17,27 @@ class Report
         return (float)averageMark / 5;
     }
 public:
-    void readInfo(int mark1, int mark2, int mark3, int mark4, int mark5)
+    float readInfo(int mark1, int mark2, int mark3, int mark4, int mark5)
     {
         name = "This is a really long name";
         while (name.length() > 20)
         {
+            cout << endl;
             cout << "Please enter the name of the student." << endl;
             cin >> name;
             if (name.length() > 20)
             {
                 cout << "This name is too long. Please enter a different name." << endl;
+            }
+        }
+        while ((studentNumber < 1000) or (studentNumber > 9999))
+        {
+            cout << endl;
+            cout << "Please enter " << name <<"'s student number." << endl;
+            cin >> studentNumber;
+            if ((studentNumber < 1000) or (studentNumber > 9999))
+            {
+                cout << "Not a valid student number. Please enter a different student number." << endl;
             }
         }
         while ((mark1 < 0) or (mark1 > 100))
@@ -80,12 +91,15 @@ public:
             }
         }
         averageMark = getAverage(mark1, mark2, mark3, mark4, mark5);
-        cout << endl;
-        cout << "Average mark: " << averageMark << endl;
+        return averageMark;
     }
-    void displayInfo()
+    void displayInfo(float _average)
     {
-
+        cout << endl << endl << endl;
+        cout << "Student 1" << endl;
+        cout << "Name: " << name << endl;
+        cout << "Student #: " << studentNumber << endl;
+        cout << "Average mark: " << _average << endl;
     }
 };
 
@@ -97,5 +111,7 @@ int main()
     int mark3;
     int mark4;
     int mark5;
-    report.readInfo(mark1, mark2, mark3, mark4, mark5);
+    float average;
+    average = report.readInfo(mark1, mark2, mark3, mark4, mark5);
+    report.displayInfo(average);
 }

@@ -51,7 +51,7 @@ Pile sortHand(Pile thePile)
     Card buffer;
     for (int i = 0; i < 13; i++)
     {
-            if (thePile.deck[i].suit == "Cloves")
+            if (thePile.deck[i].suit == "Clubs")
             {
                 thePile.deck[i].suitValue = 1;
             }
@@ -98,6 +98,7 @@ Pile sortHand(Pile thePile)
                     thePile.deck[j] = buffer;
                 }
             }
+            thePile.deck[i].cardPlayed = false;
     }
     for (int i = 26; i < 39; i++)
     {
@@ -110,6 +111,7 @@ Pile sortHand(Pile thePile)
                     thePile.deck[j] = buffer;
                 }
             }
+            thePile.deck[i].cardPlayed = false;
     }
     for (int i = 39; i < 52; i++)
     {
@@ -122,12 +124,13 @@ Pile sortHand(Pile thePile)
                     thePile.deck[j] = buffer;
                 }
             }
+            thePile.deck[i].cardPlayed = false;
     }
     return thePile;
 }
 
 // displays the user's hand of 13 cards, along with each card's important properties
-void displayCard(Card theCard, Pile thePile)
+Pile displayCard(Card theCard, Pile thePile)
 {
     for(int i = 0; i < 13; i++)
     {
@@ -164,6 +167,7 @@ void displayCard(Card theCard, Pile thePile)
             cout << endl;
         }
     }
+    return thePile;
 }
 
 // displays the amount of cards each player has remaining in their hand
@@ -194,14 +198,14 @@ Player displayDeck(Pile thePile, Player thePlayer)
 // creates each card in the deck
 Pile initializeDeck(Pile thePile)
 {
-    // initializes all cards of suit Cloves
+    // initializes all cards of suit Clubs
     for(int i=1; i<10; i++)
     {
         // initializes card's value
         thePile.deck[i].value = i+1;
 
         // initializes card's suit
-        thePile.deck[i].suit = "Cloves";
+        thePile.deck[i].suit = "Clubs";
 
         // initializes card's rank
         thePile.deck[i].Rank = i;
@@ -209,16 +213,16 @@ Pile initializeDeck(Pile thePile)
     // some properties need to be implemented manually
     thePile.deck[0].value = 1;
     thePile.deck[0].Rank = 13;
-    thePile.deck[0].suit = "Cloves";
+    thePile.deck[0].suit = "Clubs";
     thePile.deck[10].value = 11;
     thePile.deck[10].Rank = 10;
-    thePile.deck[10].suit = "Cloves";
+    thePile.deck[10].suit = "Clubs";
     thePile.deck[11].value = 12;
     thePile.deck[11].Rank = 11;
-    thePile.deck[11].suit = "Cloves";
+    thePile.deck[11].suit = "Clubs";
     thePile.deck[12].value = 13;
     thePile.deck[12].Rank = 12;
-    thePile.deck[12].suit = "Cloves";
+    thePile.deck[12].suit = "Clubs";
 
     // initializes  cards of suit Spades
     for(int i=14; i<23; i++)
@@ -403,6 +407,7 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
             }
         }
     }
+    thePile.deck[thePile.position].cardPlayed = true;
     thePile.deck[thePile.randomPositionComputer1].cardPlayed = true;
     thePile.deck[thePile.randomPositionComputer2].cardPlayed = true;
     thePile.deck[thePile.randomPositionComputer3].cardPlayed = true;
@@ -548,9 +553,7 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
 
 Player takePlayerTurn (Card theCard, Player thePlayer, Pile thePile, string _winner)
 {
-    while (thePlayer.cardCount > 0)
-    {
-        displayCard(theCard, thePile);
+        thePile = displayCard(theCard, thePile);
         thePlayer = displayDeck(thePile, thePlayer);
         cout << endl << endl << endl;
         cout << "It's your turn. Indicate the card you wish to play." << endl;
@@ -593,86 +596,14 @@ Player takePlayerTurn (Card theCard, Player thePlayer, Pile thePile, string _win
                 }
             }
         }
-        thePile.position = thePile.position-1;
         if (_winner == "Player")
         {
-            thePile.leadingSuit = thePile.deck[thePile.position].suit;
+            thePile.leadingSuit = thePile.deck[thePile.position-1].suit;
         }
         thePlayer = checkWinnerOfTrick(thePlayer, thePile, _winner);
-        thePile.deck[thePile.position].cardPlayed = true;
-    }
-    return thePlayer;
-}
+        thePile.deck[thePile.position-1].cardPlayed = true;
 
-void whoGoesFirst (Card theCard, Pile thePile, Player thePlayer)
-{
-    //thePlayer.cardCount--;
-    string winner;
-    if (thePlayer.cardCount == 13)
-    {
-        thePile.leadingSuit = "Cloves";
-        for (int i = 0; i < 52; i++)
-        {
-            if ((thePile.deck[i].value == 2) and (thePile.deck[i].suit == "Cloves"))
-            {
-                if ((i >= 0) and (i < 13))
-                {
-                    thePile.deck[i].cardPlayed = true;
-                    thePile.position = i;
-                    cout << "You have the 2 of cloves. Your first turn was just completed for you." << endl;
-                    thePlayer = checkWinnerOfTrick(thePlayer, thePile, winner);
-                    whoGoesFirst(theCard, thePile, thePlayer);
-                }
-                else if ((i >= 13) and (i < 26))
-                {
-                    cout << "Computer_1 has the 2 of cloves. Computer_1 starts." << endl;
-                    thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
-                    thePlayer.cardCount--;
-                    whoGoesFirst(theCard, thePile, thePlayer);
-                }
-                else if ((i >= 26) and (i < 39))
-                {
-                    cout << "Computer_2 has the 2 of cloves. Computer_2 starts." << endl;
-                    thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
-                    thePlayer.cardCount--;
-                    whoGoesFirst(theCard, thePile, thePlayer);
-                }
-                else if ((i >= 39) and (i < 52))
-                {
-                    cout << "Computer_3 has the 2 of cloves. Computer_3 starts." << endl;
-                    thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
-                    thePlayer.cardCount--;
-                    whoGoesFirst(theCard, thePile, thePlayer);
-                }
-            }
-        }
-    }
-    else
-    {
-        if (winner == "Player")
-        {
-            thePile.leadingSuit = "N/A";
-            thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
-        }
-        else if (winner == "Computer_1")
-        {
-            thePile.randomPositionComputer1 = (rand() % 13) + 13;
-            thePile.leadingSuit = thePile.deck[thePile.randomPositionComputer1].suit;
-            thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
-        }
-        else if (winner == "Computer_2")
-        {
-            thePile.randomPositionComputer2 = (rand() % 13) + 26;
-            thePile.leadingSuit = thePile.deck[thePile.randomPositionComputer2].suit;
-            thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
-        }
-        else
-        {
-            thePile.randomPositionComputer3 = (rand() % 13) + 39;
-            thePile.leadingSuit = thePile.deck[thePile.randomPositionComputer3].suit;
-            thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
-        }
-    }
+    return thePlayer;
 }
 
 // displays each player's final score, then displays a message based on who has the least amount of points
@@ -706,6 +637,87 @@ void endOfGameStats (Player thePlayer, string _game)
     }
 }
 
+void whoGoesFirst (Card theCard, Pile thePile, Player thePlayer, string _game)
+{
+    while (thePlayer.cardCount > 0)
+    {
+        thePlayer.cardCount--;
+        //cout << "uhgurthtrh " << thePlayer.cardCount << endl;
+        string winner;
+        if (thePlayer.cardCount == 13)
+        {
+            thePile.leadingSuit = "Clubs";
+            for (int i = 0; i < 52; i++)
+            {
+                if ((thePile.deck[i].value == 2) and (thePile.deck[i].suit == "Clubs"))
+                {
+                    if ((i >= 0) and (i < 13))
+                    {
+                        thePile.deck[i].cardPlayed = true;
+                        thePile.position = i;
+                        cout << "You have the 2 of clubs. Your first turn was just completed for you." << endl;
+                        thePlayer = checkWinnerOfTrick(thePlayer, thePile, winner);
+                        //thePlayer.cardCount--;
+                        //whoGoesFirst(theCard, thePile, thePlayer, _game);
+                    }
+                    else if ((i >= 13) and (i < 26))
+                    {
+                        cout << "Computer_1 has the 2 of clubs. Computer_1 starts." << endl;
+                        thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                        //thePlayer.cardCount--;
+                        //whoGoesFirst(theCard, thePile, thePlayer, _game);
+                    }
+                    else if ((i >= 26) and (i < 39))
+                    {
+                        cout << "Computer_2 has the 2 of clubs. Computer_2 starts." << endl;
+                        thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                        //thePlayer.cardCount--;
+                        //whoGoesFirst(theCard, thePile, thePlayer, _game);
+                    }
+                    else if ((i >= 39) and (i < 52))
+                    {
+                        cout << "Computer_3 has the 2 of clubs. Computer_3 starts." << endl;
+                        thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                        //thePlayer.cardCount--;
+                        //whoGoesFirst(theCard, thePile, thePlayer, _game);
+                    }
+                }
+            }
+        }
+        else if (thePlayer.cardCount > 0)
+        {
+            if (winner == "Player")
+            {
+                thePile.leadingSuit = "N/A";
+                thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+            }
+            else if (winner == "Computer_1")
+            {
+                thePile.randomPositionComputer1 = (rand() % 13) + 13;
+                thePile.leadingSuit = thePile.deck[thePile.randomPositionComputer1].suit;
+                thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+            }
+            else if (winner == "Computer_2")
+            {
+                thePile.randomPositionComputer2 = (rand() % 13) + 26;
+                thePile.leadingSuit = thePile.deck[thePile.randomPositionComputer2].suit;
+                thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+            }
+            else
+            {
+                thePile.randomPositionComputer3 = (rand() % 13) + 39;
+                thePile.leadingSuit = thePile.deck[thePile.randomPositionComputer3].suit;
+                thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+            }
+        }
+        else
+        {
+            cout << endl;
+            endOfGameStats(thePlayer, _game);
+        }
+    }
+}
+
 int main()
 {
     srand(time(NULL));
@@ -719,7 +731,7 @@ int main()
     while (game == "y")
     {
         pile.position = 14;
-        player.cardCount = 13;
+        player.cardCount = 14;
         player.userPoints = 0;
         player.computer1Points = 0;
         player.computer2Points = 0;
@@ -728,9 +740,7 @@ int main()
         pile = shuffleDeck(pile);
         pile = sortHand(pile);
         cout << endl;
-        whoGoesFirst(card, pile, player);
-        cout << endl;
-        endOfGameStats(player, game);
+        whoGoesFirst(card, pile, player, game);
         cout << endl << endl << endl;
         game = "?";
         while ((game != "y") and (game != "n"))
