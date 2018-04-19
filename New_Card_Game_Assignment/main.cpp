@@ -134,6 +134,7 @@ Pile displayCard(Card theCard, Pile thePile)
 {
     for(int i = 0; i < 13; i++)
     {
+        cout << "test 2: " << thePile.deck[i].cardPlayed << endl;
         if (thePile.deck[i].cardPlayed == false)
         {
             cout << "Card " << i+1 << endl;
@@ -407,17 +408,16 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
             }
         }
     }
-    thePile.deck[thePile.position].cardPlayed = true;
     thePile.deck[thePile.randomPositionComputer1].cardPlayed = true;
     thePile.deck[thePile.randomPositionComputer2].cardPlayed = true;
     thePile.deck[thePile.randomPositionComputer3].cardPlayed = true;
-    if ((thePile.deck[thePile.position].Rank > thePile.deck[thePile.randomPositionComputer1].Rank) and (thePile.deck[thePile.position].Rank > thePile.deck[thePile.randomPositionComputer2].Rank) and (thePile.deck[thePile.position].Rank > thePile.deck[thePile.randomPositionComputer3].Rank))
+    if ((thePile.deck[thePile.position-1].Rank > thePile.deck[thePile.randomPositionComputer1].Rank) and (thePile.deck[thePile.position-1].Rank > thePile.deck[thePile.randomPositionComputer2].Rank) and (thePile.deck[thePile.position-1].Rank > thePile.deck[thePile.randomPositionComputer3].Rank))
     {
         _winner = "Player";
         cout << "You take the pile." << endl;
-        if ((thePile.deck[thePile.position].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
+        if ((thePile.deck[thePile.position-1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
         {
-            if (thePile.deck[thePile.position].suit == "Hearts")
+            if (thePile.deck[thePile.position-1].suit == "Hearts")
             {
                 thePlayer.userPoints++;
             }
@@ -435,7 +435,7 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
             }
             cout << "Uh oh! You have picked up some hearts. You now have " << thePlayer.userPoints << " points." << endl;
         }
-        if (((thePile.deck[thePile.position].value == 12) and (thePile.deck[thePile.position].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
+        if (((thePile.deck[thePile.position-1].value == 12) and (thePile.deck[thePile.position-1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
         {
             thePlayer.userPoints = thePlayer.userPoints + 13;
             cout << "Oh dear!!! You have picked up the queen of spades. You now have " << thePlayer.userPoints << " points." << endl;
@@ -445,13 +445,13 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
             cout << "Congrats!!! You've just shot the moon and won the game!" <<endl;
         }
     }
-    else if ((thePile.deck[thePile.randomPositionComputer1].Rank > thePile.deck[thePile.randomPositionComputer2].Rank) and (thePile.deck[thePile.randomPositionComputer1].Rank > thePile.deck[thePile.randomPositionComputer3].Rank) and (thePile.deck[thePile.randomPositionComputer1].Rank > thePile.deck[thePile.position].Rank))
+    else if ((thePile.deck[thePile.randomPositionComputer1].Rank > thePile.deck[thePile.randomPositionComputer2].Rank) and (thePile.deck[thePile.randomPositionComputer1].Rank > thePile.deck[thePile.randomPositionComputer3].Rank) and (thePile.deck[thePile.randomPositionComputer1].Rank > thePile.deck[thePile.position-1].Rank))
     {
         _winner = "Computer_1";
         cout << "Computer_1 takes the pile." << endl;
-        if ((thePile.deck[thePile.position].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
+        if ((thePile.deck[thePile.position-1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
         {
-            if (thePile.deck[thePile.position].suit == "Hearts")
+            if (thePile.deck[thePile.position-1].suit == "Hearts")
             {
                 thePlayer.computer1Points++;
             }
@@ -469,7 +469,7 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
             }
             cout << "Yes! Computer_1 has picked up some hearts. They now have " << thePlayer.computer1Points << " points." << endl;
         }
-        if (((thePile.deck[thePile.position].value == 12) and (thePile.deck[thePile.position].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
+        if (((thePile.deck[thePile.position-1].value == 12) and (thePile.deck[thePile.position-1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
         {
             thePlayer.computer1Points = thePlayer.computer1Points + 13;
             cout << "Amazing!!! Computer_1 has picked up the queen of spades. They now have " << thePlayer.computer1Points << " points." << endl;
@@ -479,13 +479,13 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
             cout << "*sigh* Computer_1 has just shot the moon and won the game!" <<endl;
         }
     }
-    else if ((thePile.deck[thePile.randomPositionComputer2].Rank > thePile.deck[thePile.randomPositionComputer3].Rank) and (thePile.deck[thePile.randomPositionComputer2].Rank > thePile.deck[thePile.position].Rank) and (thePile.deck[thePile.randomPositionComputer2].Rank > thePile.deck[thePile.randomPositionComputer1].Rank))
+    else if ((thePile.deck[thePile.randomPositionComputer2].Rank > thePile.deck[thePile.randomPositionComputer3].Rank) and (thePile.deck[thePile.randomPositionComputer2].Rank > thePile.deck[thePile.position-1].Rank) and (thePile.deck[thePile.randomPositionComputer2].Rank > thePile.deck[thePile.randomPositionComputer1].Rank))
     {
         _winner = "Computer_2";
         cout << "Computer_2 takes the pile." << endl;
-        if ((thePile.deck[thePile.position].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
+        if ((thePile.deck[thePile.position-1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
         {
-            if (thePile.deck[thePile.position].suit == "Hearts")
+            if (thePile.deck[thePile.position-1].suit == "Hearts")
             {
                 thePlayer.computer2Points++;
             }
@@ -503,7 +503,7 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
             }
             cout << "Yes! Computer_2 has picked up some hearts. They now have " << thePlayer.computer2Points << " points." << endl;
         }
-        if (((thePile.deck[thePile.position].value == 12) and (thePile.deck[thePile.position].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
+        if (((thePile.deck[thePile.position-1].value == 12) and (thePile.deck[thePile.position-1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
         {
             thePlayer.computer2Points = thePlayer.computer2Points + 13;
             cout << "Amazing!!! Computer_2 has picked up the queen of spades. They now have " << thePlayer.computer2Points << " points." << endl;
@@ -517,9 +517,9 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
     {
         _winner = "Computer_3";
         cout << "Computer_3 takes the pile." << endl;
-        if ((thePile.deck[thePile.position].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
+        if ((thePile.deck[thePile.position-1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer1].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer2].suit == "Hearts") or (thePile.deck[thePile.randomPositionComputer3].suit == "Hearts"))
         {
-            if (thePile.deck[thePile.position].suit == "Hearts")
+            if (thePile.deck[thePile.position-1].suit == "Hearts")
             {
                 thePlayer.computer3Points++;
             }
@@ -537,7 +537,7 @@ Player checkWinnerOfTrick(Player thePlayer, Pile thePile, string _winner)
             }
             cout << "Yes! Computer_3 has picked up some hearts. They now have " << thePlayer.computer3Points << " points." << endl;
         }
-        if (((thePile.deck[thePile.position].value == 12) and (thePile.deck[thePile.position].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
+        if (((thePile.deck[thePile.position-1].value == 12) and (thePile.deck[thePile.position-1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer1].value == 12) and (thePile.deck[thePile.randomPositionComputer1].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer2].value == 12) and (thePile.deck[thePile.randomPositionComputer2].suit == "Spades")) or ((thePile.deck[thePile.randomPositionComputer3].value == 12) and (thePile.deck[thePile.randomPositionComputer3].suit == "Spades")))
         {
             thePlayer.computer3Points = thePlayer.computer3Points + 13;
             cout << "Amazing!!! Computer_3 has picked up the queen of spades. They now have " << thePlayer.computer3Points << " points." << endl;
@@ -601,7 +601,6 @@ Player takePlayerTurn (Card theCard, Player thePlayer, Pile thePile, string _win
             thePile.leadingSuit = thePile.deck[thePile.position-1].suit;
         }
         thePlayer = checkWinnerOfTrick(thePlayer, thePile, _winner);
-        thePile.deck[thePile.position-1].cardPlayed = true;
 
     return thePlayer;
 }
@@ -657,6 +656,8 @@ void whoGoesFirst (Card theCard, Pile thePile, Player thePlayer, string _game)
                         thePile.position = i;
                         cout << "You have the 2 of clubs. Your first turn was just completed for you." << endl;
                         thePlayer = checkWinnerOfTrick(thePlayer, thePile, winner);
+                        thePile.deck[thePile.position-1].cardPlayed = true;
+                        cout << "test: " << thePile.deck[thePile.position-1].cardPlayed << endl;
                         //thePlayer.cardCount--;
                         //whoGoesFirst(theCard, thePile, thePlayer, _game);
                     }
@@ -664,6 +665,8 @@ void whoGoesFirst (Card theCard, Pile thePile, Player thePlayer, string _game)
                     {
                         cout << "Computer_1 has the 2 of clubs. Computer_1 starts." << endl;
                         thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                        thePile.deck[thePile.position-1].cardPlayed = true;
+                        cout << "test: " << thePile.deck[thePile.position-1].cardPlayed << endl;
                         //thePlayer.cardCount--;
                         //whoGoesFirst(theCard, thePile, thePlayer, _game);
                     }
@@ -671,6 +674,8 @@ void whoGoesFirst (Card theCard, Pile thePile, Player thePlayer, string _game)
                     {
                         cout << "Computer_2 has the 2 of clubs. Computer_2 starts." << endl;
                         thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                        thePile.deck[thePile.position-1].cardPlayed = true;
+                        cout << "test: " << thePile.deck[thePile.position-1].cardPlayed << endl;
                         //thePlayer.cardCount--;
                         //whoGoesFirst(theCard, thePile, thePlayer, _game);
                     }
@@ -678,6 +683,8 @@ void whoGoesFirst (Card theCard, Pile thePile, Player thePlayer, string _game)
                     {
                         cout << "Computer_3 has the 2 of clubs. Computer_3 starts." << endl;
                         thePlayer = takePlayerTurn (theCard, thePlayer, thePile, winner);
+                        thePile.deck[thePile.position-1].cardPlayed = true;
+                        cout << "test: " << thePile.deck[thePile.position-1].cardPlayed << endl;
                         //thePlayer.cardCount--;
                         //whoGoesFirst(theCard, thePile, thePlayer, _game);
                     }
