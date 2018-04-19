@@ -3,13 +3,6 @@
 
 using namespace std;
 
-class Teacher
-{
-    string firstName;
-    string lastName;
-    string schedule[4] = {};
-};
-
 class Student
 {
     string firstName;
@@ -20,42 +13,49 @@ class Student
     string schedule[4] = {};
 };
 
-void addStudent()
+class Teacher
+{
+    string firstName;
+    string lastName;
+    string schedule[4] = {};
+};
+
+void addStudent(vector<Student> _students)
 {
 
 }
 
-void modifyStudent()
+void modifyStudent(vector<Student> _students)
 {
 
 }
 
-void removeStudent()
+void removeStudent(vector<Student> _students)
 {
 
 }
 
-void addTeacher()
+void addTeacher(vector<Teacher> _teachers)
 {
 
 }
 
-void modifyTeacher()
+void modifyTeacher(vector<Teacher> _teachers)
 {
 
 }
 
-void removeTeacher()
+void removeTeacher(vector<Teacher> _teachers)
 {
 
 }
 
-void displayStudentTimetable()
+void displayStudentTimetable(vector<Student> _students)
 {
 
 }
 
-void displayTeacherTimetable()
+void displayTeacherTimetable(vector<Teacher> _teachers)
 {
 
 }
@@ -80,28 +80,28 @@ void menu()
         switch (option)
         {
         case 1:
-            addStudent();
+            addStudent(students);
             break;
         case 2:
-            modifyStudent();
+            modifyStudent(students);
             break;
         case 3:
-            removeStudent();
+            removeStudent(students);
             break;
         case 4:
-            addTeacher();
+            addTeacher(teachers);
             break;
         case 5:
-            modifyTeacher();
+            modifyTeacher(teachers);
             break;
         case 6:
-            removeTeacher();
+            removeTeacher(teachers);
             break;
         case 7:
-            displayStudentTimetable();
+            displayStudentTimetable(students);
             break;
         case 8:
-            displayTeacherTimetable();
+            displayTeacherTimetable(students);
             break;
         case 9:
             break;
@@ -114,5 +114,7 @@ void menu()
 
 int main()
 {
+    vector<Student> students;
+    vector<Teacher> teachers;
     menu();
 }
