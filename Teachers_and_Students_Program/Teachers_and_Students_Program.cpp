@@ -1,66 +1,82 @@
 #include <iostream>
 #include <cstdlib>
+#include <list>
+#include <sstream>
 
 using namespace std;
 
 class Student
 {
+public:
     string firstName;
     string lastName;
     int studentNumber;
     int grade;
+    const string jksk[2] = {"JK","SK"};
     int birthday[3] = {};
     string schedule[4] = {};
 };
 
 class Teacher
 {
+public:
     string firstName;
     string lastName;
     string schedule[4] = {};
 };
 
-void addStudent(vector<Student> _students)
+void addStudent(list<Student> _students)
+{
+    Student buffer;
+    string gradeBuffer;
+    cout << "Please enter the student's first name." << endl;
+    cin >> buffer.firstName;
+    cout << "Please enter the student's last name." << endl;
+    cin >> buffer.lastName;
+    cout << "Please enter the student's student #." << endl;
+    cin >> buffer.studentNumber;
+    cout << "Please enter the student's grade." << endl;
+    cin >> gradeBuffer;
+    stringstream(gradeBuffer) >> buffer.grade;
+    if ((gradeBuffer == "JK") or (gradeBuffer == "jk") or (gradeBuffer == "SK") or (gradeBuffer == "sk") or (gradeBuffer == "1")
+}
+
+void modifyStudent(list<Student> _students)
 {
 
 }
 
-void modifyStudent(vector<Student> _students)
+void removeStudent(list<Student> _students)
 {
 
 }
 
-void removeStudent(vector<Student> _students)
+void addTeacher(list<Teacher> _teachers)
 {
 
 }
 
-void addTeacher(vector<Teacher> _teachers)
+void modifyTeacher(list<Teacher> _teachers)
 {
 
 }
 
-void modifyTeacher(vector<Teacher> _teachers)
+void removeTeacher(list<Teacher> _teachers)
 {
 
 }
 
-void removeTeacher(vector<Teacher> _teachers)
+void displayStudentTimetable(list<Student> _students)
 {
 
 }
 
-void displayStudentTimetable(vector<Student> _students)
+void displayTeacherTimetable(list<Teacher> _teachers)
 {
 
 }
 
-void displayTeacherTimetable(vector<Teacher> _teachers)
-{
-
-}
-
-void menu()
+void menu(list<Student> _students, list<Teacher> _teachers)
 {
     int option;
     cout << "Welcome user!" << endl;
@@ -80,28 +96,28 @@ void menu()
         switch (option)
         {
         case 1:
-            addStudent(students);
+            addStudent(_students);
             break;
         case 2:
-            modifyStudent(students);
+            modifyStudent(_students);
             break;
         case 3:
-            removeStudent(students);
+            removeStudent(_students);
             break;
         case 4:
-            addTeacher(teachers);
+            addTeacher(_teachers);
             break;
         case 5:
-            modifyTeacher(teachers);
+            modifyTeacher(_teachers);
             break;
         case 6:
-            removeTeacher(teachers);
+            removeTeacher(_teachers);
             break;
         case 7:
-            displayStudentTimetable(students);
+            displayStudentTimetable(_students);
             break;
         case 8:
-            displayTeacherTimetable(students);
+            displayTeacherTimetable(_teachers);
             break;
         case 9:
             break;
@@ -114,7 +130,7 @@ void menu()
 
 int main()
 {
-    vector<Student> students;
-    vector<Teacher> teachers;
-    menu();
+    list<Student> students;
+    list<Teacher> teachers;
+    menu(students, teachers);
 }
