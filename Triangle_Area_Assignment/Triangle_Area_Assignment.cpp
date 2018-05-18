@@ -14,10 +14,10 @@ class Triangle
 public:
     void isTriangleValid()      //function that checks if user-created triangle can theoretically exist
     {
-        float largestSide;      //variable that stores the value of the largest side length
+        float largestSide = 0;      //variable that stores the value of the largest side length
         float smallerSide1;     //variables that each store one of the 2 remaining side lengths
         float smallerSide2;
-        float smallerSideTotal; //variable that stores the sum of the smaller side lengths
+        float smallerSideTotal = 0; //variable that stores the sum of the smaller side lengths
         while (largestSide >= smallerSideTotal)  //condition that needs to be broken in order for a triangle to theoretically exist, while loop continues until this condition is broken
         {
             cout << "Please enter 3 side lengths (in cm)." << endl;
