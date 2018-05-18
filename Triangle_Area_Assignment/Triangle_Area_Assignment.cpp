@@ -21,11 +21,7 @@ public:
     void isTriangleValid()      //function that checks if user-created triangle can theoretically exist
     {
         float largestSide = 0;      //variable that stores the value of the largest side length
-<<<<<<< HEAD
         float smallerSide1;     //variables that each store one of the 2 remaining side lengths
-=======
-        float smallerSide1;         //variables that each store one of the 2 remaining side lengths
->>>>>>> 2300c62e7d9b0353cd7002416e950a14bd3b9436
         float smallerSide2;
         float smallerSideTotal = 0; //variable that stores the sum of the smaller side lengths
         while (largestSide >= smallerSideTotal)  //condition that needs to be broken in order for a triangle to theoretically exist, while loop continues until this condition is broken
@@ -63,7 +59,7 @@ public:
                 smallerSide1 = side[0];
                 smallerSide2 = side[2];
             }
-            else if ((side[2] > side[0]) and (side[2] > side[1]))   //if the third inputted side length is the largest...
+            else
             {
                 largestSide = side[2];
                 smallerSide1 = side[0];
