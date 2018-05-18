@@ -1,3 +1,9 @@
+/* Ramzi Yakan
+   Triangle Area Assignment
+   Asks the user for 3 sides lengths of a triangle, then uses the inputted side lengths calculates the perimeter, semiperimeter, area, and height of the triangle (from each side).
+   May 11 2018
+   */
+
 #include <iostream>
 #include <cstdlib>
 #include <math.h>   //for sqrt function
@@ -15,7 +21,11 @@ public:
     void isTriangleValid()      //function that checks if user-created triangle can theoretically exist
     {
         float largestSide = 0;      //variable that stores the value of the largest side length
+<<<<<<< HEAD
         float smallerSide1;     //variables that each store one of the 2 remaining side lengths
+=======
+        float smallerSide1;         //variables that each store one of the 2 remaining side lengths
+>>>>>>> 2300c62e7d9b0353cd7002416e950a14bd3b9436
         float smallerSide2;
         float smallerSideTotal = 0; //variable that stores the sum of the smaller side lengths
         while (largestSide >= smallerSideTotal)  //condition that needs to be broken in order for a triangle to theoretically exist, while loop continues until this condition is broken
@@ -29,10 +39,10 @@ public:
                     cout << "Side " << i+1 << ": ";
                     cin >> side[i];   //user inputs side lengths
                     cout << endl;
-                    if ((side[i] <= 0) or (cin.fail() == true))   //if inputted side length cannot theoretically exist or breaks the program
+                    if ((side[i] <= 0) or (cin.fail() == true))   //if inputted side length cannot theoretically exist or will break the program
                     {
                         cout << "Please provide a valid side length." << endl;
-                        if (cin.fail() == true)
+                        if (cin.fail() == true)  //if inputted side length will break the program
                         {
                             cin.clear();    //clears inputted side length
                             cin.ignore();   //ignores inputted side length
@@ -60,56 +70,57 @@ public:
                 smallerSide2 = side[1];
             }
             smallerSideTotal = smallerSide1 + smallerSide2;
-            if (largestSide >= smallerSideTotal)
+            if (largestSide >= smallerSideTotal)    //if triangle cannot theoretically exist
             {
-                cout << "Not a valid triangle." << endl << endl;
+                cout << "Not a valid triangle." << endl << endl << endl;
             }
         }
     }
-    float getPerimeter()
+    void getPerimeter()     //function that calculates the perimeter of the triangle
     {
-        perimeter = side[0] + side[1] + side[2];
+        perimeter = side[0] + side[1] + side[2];    //calculation for perimeter
         cout << "Perimeter: " << perimeter << " cm" << endl;
     }
-    float getSemiPerimeter()
+    void getSemiPerimeter()  //function that calculates the semiperimeter of the triangle
     {
-        semiPerimeter = perimeter/2;
+        semiPerimeter = perimeter/2;    //calculation for semiperimeter
         cout << "Semiperimeter: " << semiPerimeter << " cm" << endl;
     }
-    float getArea()
+    void getArea()     //function that calculates the area of the triangle
     {
-        area = sqrt(semiPerimeter*(semiPerimeter - side[0])*(semiPerimeter - side[1])*(semiPerimeter - side[2]));
+        area = sqrt(semiPerimeter*(semiPerimeter - side[0])*(semiPerimeter - side[1])*(semiPerimeter - side[2]));   //calculation for area
         cout << "Area: " << area << " cm^2" << endl;
     }
-    float getHeight()
+    void getHeight()       //function that calculates the height of the triangle from each of its three sides
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)     //calculation needs to be done 3 times since there are 3 sides
         {
-            height[i] = 2*area/side[i];
+            height[i] = 2*area/side[i];    //calculation for height
             cout << "Height from side "<< i+1 << ": " << height[i] << " cm" << endl;
         }
     }
     void getName()
     {
-        if ((side[0] == side[1]) and (side[0] == side[2]) and (side[1] == side[2]))
+        if ((side[0] == side[1]) and (side[0] == side[2]) and (side[1] == side[2]))   //if all sides of the triangle are of equal length
         {
             cout << "Type of Triangle: Equilateral" << endl;
         }
-        else if ((side[0] != side[1]) and (side[0] != side[2]) and (side[1] != side[2]))
+        else if ((side[0] != side[1]) and (side[0] != side[2]) and (side[1] != side[2]))   //if each side of the triangle has a different length
         {
             cout << "Type of Triangle: Scalene" << endl;
         }
-        else
+        else    //if 2 of the sides of the triangle are of equal length
         {
             cout << "Type of Triangle: Isosceles" << endl;
         }
     }
+    Triangle();  //use of constructor
 };
 
-bool tryAgain()
+bool runAgain()     //boolean function that asks the user if they want to run the program again, returns user's answer to int main
 {
     string answer;
-    cout << "Try again?" << endl;
+    cout << "Run the program again? (y/n)" << endl;
     while ((answer != "y") and (answer != "n"))
     {
         cin >> answer;
@@ -129,10 +140,15 @@ bool tryAgain()
     }
 }
 
+Triangle::Triangle()    //use of constructor
+{
+    cout << "Welcome to the Triangle Area Program." << endl << endl << endl << endl;
+}
+
 int main()
 {
     Triangle _triangle;
-    bool programStatus = true;
+    bool programStatus = true;  //variable that determines whether the program is still running
     while (programStatus == true)
     {
         _triangle.isTriangleValid();
@@ -142,7 +158,7 @@ int main()
         _triangle.getHeight();
         _triangle.getName();
         cout << endl;
-        programStatus = tryAgain();
+        programStatus = runAgain();
         cout << endl << endl;
     }
     return 0;
