@@ -135,7 +135,6 @@ Pile displayCard(Card theCard, Pile thePile)
 {
     for(int i = 0; i < 13; i++)
     {
-        cout << "test "<< i+1 << ": " << thePile.deck[i].cardPlayed << endl;
         if (thePile.deck[i].cardPlayed == false)
         {
             cout << "Card " << i+1 << endl;
